@@ -5,90 +5,6 @@
  * Last date: 2020-7-20
  */
 
-/*
-    // USE IT
-
-    // wxml canvas
-    <canvas
-        type="2d"
-        id="poster-canvas"
-        class="poster-canvas"
-        style="width: 100%; height: 100%;"
-        disable-scroll="{{ true }}"
-    />
-
-    // 实例化对象
-    const canvas = new WxCanvas2d()
-
-    // 创建
-    canvas.create({
-        query: '.poster-canvas', // 必传，canvas元素的查询条件
-        rootWidth: 750, // 参考设备宽度 (即开发时UI设计稿的宽度，默认375，可改为750)
-        bgColor: '#fff', // 背景色，默认透明
-        component: this // 自定义组件内需要传 this
-    }).then(res => {
-        // console.log(res)
-    }).catch(err => {
-        console.log('[WxCanvas2d] Canvas create fail: ', err)
-    })
-
-    // 绘制
-    canvas.draw({
-        series: [
-            {
-                type: 'image', // 图片
-                url: 'https://a.b.c',
-                x: 0,
-                y: 0,
-                width: 600,
-                height: 600,
-                zIndex: 0
-            },
-            {
-                type: 'text', // 文本
-                text: '',
-                x: 0,
-                y: 0,
-                color: '#000',
-                fontSize: 12,
-                fontWeight: '',
-                width: 100, // 文字块的宽度，设置后文字会自动换行
-                lineHeight: 12, // 行高
-                zIndex: 0
-            },
-            {
-                type: 'line', // 线段
-                lineStyle: {
-                    cap: 'butt', // butt | round | square
-                    join: 'bevel', // bevel | round | miter
-                    offset: 0,
-                    dash: [1, 0],
-                    color: '#000',
-                    width: 1
-                },
-                line: [
-                    { point: [0, 0] },
-                    { point: [100, 100] }
-                ],
-                zIndex: 0
-            }
-        ]
-    }).then(() => {
-        console.log('绘制成功！')
-    }).catch(err => {
-        console.log('绘制失败！', err)
-    })
-
-    // 清空
-    canvas.clear()
-*/
-
-/*
-    需解决问题：
-
-    线段绘制高度有问题
-*/
-
 class WxCanvas2d {
     constructor () {
         this.query = null // canvas 的查询条件
@@ -152,28 +68,6 @@ class WxCanvas2d {
         this.ctx.clearRect(0, 0, this.xDpr(this.canvas.width), this.xDpr(this.canvas.height))
 
         if (this.radius) {
-            // wx.showModal({
-            //     content: `
-            //         this.canvas.width: ${this.canvas.width}
-            //         this.canvas.height: ${this.canvas.height}
-            //         this.systemInfo.screenWidth: ${this.systemInfo.screenWidth}
-            //         this.dpr: ${this.dpr}
-            //         this.rootWidth: ${this.rootWidth}
-            //         width: ${this.canvas.width / this.systemInfo.screenWidth / this.dpr * this.rootWidth}
-            //         height: ${this.canvas.height / this.systemInfo.screenWidth / this.dpr * this.rootWidth}
-            //     `.replace(/ /g, '')
-            // })
-
-            // console.log(`
-            //     this.canvas.width: ${this.canvas.width}
-            //     this.canvas.height: ${this.canvas.height}
-            //     this.systemInfo.screenWidth: ${this.systemInfo.screenWidth}
-            //     this.dpr: ${this.dpr}
-            //     this.rootWidth: ${this.rootWidth}
-            //     width: ${this.canvas.width / this.systemInfo.screenWidth / this.dpr * this.rootWidth}
-            //     height: ${this.canvas.height / this.systemInfo.screenWidth / this.dpr * this.rootWidth}
-            // `.replace(/ /g, ''))
-
             this.drawRectPath({
                 x: 0,
                 y: 0,
@@ -183,10 +77,6 @@ class WxCanvas2d {
             })
 
             this.ctx.clip()
-            // if (!this.flag) {
-            //     this.flag = true
-            //     this.ctx.clip()
-            // }
         }
 
         if (this.bgColor) {
@@ -350,38 +240,10 @@ class WxCanvas2d {
             [x + radius, y + height - radius].map(n => this.xDpr(n)) // bottom left
         ]
 
-        // 四边直线起始坐标
-        // const sidePos = [
-        //     // top
-        //     [
-        //         [x + radius, y],
-        //         [x + width - radius, y]
-        //     ],
-        //     // right
-        //     [
-        //         [x + width, y + radius],
-        //         [x + width, y + height - radius]
-        //     ],
-        //     // bottom
-        //     [
-        //         [x + width - radius, y + height],
-        //         [x + radius, y + height]
-        //     ],
-        //     // left
-        //     [
-        //         [x, y + height - radius],
-        //         [x, y + radius]
-        //     ]
-        // ].map(n => n.map(m => [this.xDpr(m.x), this.xDpr(m.y)]))
-        // // ].map(n => n.map(m => m.map(o => this.xDpr(o))))
-        // console.log(sidePos)
-
         this.ctx.beginPath()
 
         Array(4).fill().forEach((n, i) => {
             this.ctx.arc(...arcPos[i], this.xDpr(radius), ...angleArr[i])
-            // this.ctx.moveTo(...sidePos[i][0])
-            // this.ctx.lineTo(...sidePos[i][1])
         })
 
         this.ctx.closePath()
@@ -400,21 +262,18 @@ class WxCanvas2d {
             ...opts
         }
 
-        // 图片裁剪、缩放的模式
-        // 类型: string
-        // 可选值:
-        // scaleToFill: 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素 原图： 处理后: 
-        // aspectFit: 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 原图： 处理后: 
-        // aspectFill: 缩放: 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。 原图： 处理后: 
+        // scaleToFill: 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
+        // aspectFit: 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
+        // aspectFill: 缩放: 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。
         // widthFix: 缩放: 宽度不变，高度自动变化，保持原图宽高比不变
-        // top: 裁剪: 不缩放图片，只显示图片的顶部区域 原图： 处理后: 
-        // bottom: 裁剪: 不缩放图片，只显示图片的底部区域 原图： 处理后: 
-        // center: 裁剪: 不缩放图片，只显示图片的中间区域 原图： 处理后: 
-        // left: 裁剪: 不缩放图片，只显示图片的左边区域 原图： 处理后: 
-        // right: 裁剪: 不缩放图片，只显示图片的右边区域 原图： 处理后: 
-        // top left: 裁剪: 不缩放图片，只显示图片的左上边区域 原图： 处理后: 
-        // top right: 裁剪: 不缩放图片，只显示图片的右上边区域 原图： 处理后: 
-        // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域 原图： 处理后: 
+        // top: 裁剪: 不缩放图片，只显示图片的顶部区域
+        // bottom: 裁剪: 不缩放图片，只显示图片的底部区域
+        // center: 裁剪: 不缩放图片，只显示图片的中间区域
+        // left: 裁剪: 不缩放图片，只显示图片的左边区域
+        // right: 裁剪: 不缩放图片，只显示图片的右边区域
+        // top left: 裁剪: 不缩放图片，只显示图片的左上边区域
+        // top right: 裁剪: 不缩放图片，只显示图片的右上边区域
+        // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
             const { url, x, y, width, height, mode } = _opts
@@ -482,8 +341,15 @@ class WxCanvas2d {
                             this.xDpr(height || res.height)
                         )
                         resolve()
+                    },
+                    fail: err => {
+                        reject(err)
                     }
                 })
+            }
+
+            img.onerror = (err) => {
+                reject(err)
             }
         })
     }
