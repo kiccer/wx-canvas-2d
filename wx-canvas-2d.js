@@ -1,9 +1,10 @@
 /**
  * WxCanvas2d
- * 
+ *
  * Anthor: kiccer
- * Last date: 2020-7-20
  */
+
+/* global wx */
 
 class WxCanvas2d {
     constructor () {
@@ -26,38 +27,38 @@ class WxCanvas2d {
                 rootWidth: 375,
                 ...opts
             }
-    
+
             if (!options.query) reject(new Error('[WxCanvas2d] \'query\' is empty.'))
-    
+
             this.query = options.query
             this.bgColor = options.bgColor
             this.component = options.component
             this.radius = options.radius
-    
+
             const query = this.component
                 ? wx.createSelectorQuery().in(this.component)
                 : wx.createSelectorQuery()
-            
+
             query.select(this.query)
                 .fields({ node: true, size: true })
                 .exec(res => {
                     // console.log(res)
                     if (!res[0]) return false
-    
+
                     const canvas = res[0].node
                     const ctx = canvas.getContext('2d')
                     const dpr = wx.getSystemInfoSync().pixelRatio
-    
+
                     this.canvas = canvas
                     this.ctx = ctx
                     this.dpr = dpr
                     this.systemInfo = wx.getSystemInfoSync()
                     this.rootWidth = options.rootWidth
-    
+
                     this.canvas.width = res[0].width * this.dpr
                     this.canvas.height = res[0].height * this.dpr
                     // this.ctx.scale(this.dpr, this.dpr)
-    
+
                     resolve(this)
                 })
         })
@@ -94,30 +95,30 @@ class WxCanvas2d {
     draw (opts) {
         // console.log(opts)
         return new Promise((resolve, reject) => {
-            let { series } = opts
+            const { series } = opts
 
             const query = this.component
                 ? wx.createSelectorQuery().in(this.component)
                 : wx.createSelectorQuery()
-            
+
             query.select(this.query)
                 .fields({ node: true, size: true })
                 .exec(res => {
                     // console.log(res)
                     if (!res[0]) return false
-    
+
                     // 重设画布大小
                     this.canvas.width = res[0].width * this.dpr
                     this.canvas.height = res[0].height * this.dpr
                     // this.ctx.scale(this.dpr, this.dpr)
-    
+
                     this.clear() // 画之前先清空一次画布
-    
+
                     // 根据 zIndex 排序 (从小到大，先画小的，这样越大的显示在越上方)
                     const _series = series
                         .map(n => ({ ...n, zIndex: n.zIndex || 0 }))
                         .sort((n, m) => n.zIndex - m.zIndex)
-    
+
                     // 绘制方法映射表
                     const drawFunc = {
                         rect: (...opts) => this.drawRect(...opts),
@@ -125,11 +126,11 @@ class WxCanvas2d {
                         text: (...opts) => this.drawText(...opts),
                         line: (...opts) => this.drawLine(...opts)
                     }
-    
+
                     // 按顺序绘制图层方法
                     const next = (index = 0) => {
                         if (index < _series.length) {
-                            let options = _series[index]
+                            const options = _series[index]
                             if (drawFunc[options.type]) {
                                 this.styleClear() // 绘制新图层前，先还原一次样式设置
                                 drawFunc[options.type](options).then(() => {
@@ -145,7 +146,7 @@ class WxCanvas2d {
                             resolve() // 所有图层绘制完毕
                         }
                     }
-    
+
                     next() // 开始按顺序绘制图层
                 })
         })
@@ -187,13 +188,13 @@ class WxCanvas2d {
                 y: _opts.y,
                 width: _opts.width,
                 height: _opts.height,
-                radius: _opts.radius,
+                radius: _opts.radius
             })
 
             if (_opts.color) {
                 this.ctx.stroke()
             }
-            
+
             if (_opts.bgColor) {
                 this.ctx.fill()
             }
@@ -292,13 +293,13 @@ class WxCanvas2d {
 
                         const imgCut = {
                             scaleToFill: [
-                                0, 0, imgWidth, imgHeight,
+                                0, 0, imgWidth, imgHeight
                             ], // 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
                             aspectFit: [
-                                (imgWidth - imgMaxSide) / 2, (imgHeight - imgMaxSide) / 2, imgMaxSide, imgMaxSide,
+                                (imgWidth - imgMaxSide) / 2, (imgHeight - imgMaxSide) / 2, imgMaxSide, imgMaxSide
                             ], // 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
                             aspectFill: [
-                                (imgWidth - imgMinSide) / 2, (imgHeight - imgMinSide) / 2, imgMinSide, imgMinSide,
+                                (imgWidth - imgMinSide) / 2, (imgHeight - imgMinSide) / 2, imgMinSide, imgMinSide
                             ], // 缩放: 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。
                             widthFix: [], // 缩放: 宽度不变，高度自动变化，保持原图宽高比不变
                             top: [
@@ -327,7 +328,7 @@ class WxCanvas2d {
                             ], // 裁剪: 不缩放图片，只显示图片的左下边区域
                             'bottom right': [
                                 imgWidth - width, imgHeight - height, width, height
-                            ], // 裁剪: 不缩放图片，只显示图片的右下边区域
+                            ] // 裁剪: 不缩放图片，只显示图片的右下边区域
                         }
                         // console.log(mode)
 
@@ -376,7 +377,7 @@ class WxCanvas2d {
             let start = 0 // 截取的起始下标
             let index = 0 // 行数下标
             let splitStr = [] // 拆分后的文本数组
-    
+
             this.ctx.setTextAlign = _opts.align
             this.ctx.textBaseline = _opts.baseline
             this.ctx.fillStyle = _opts.color
@@ -384,7 +385,7 @@ class WxCanvas2d {
 
             // 拆分文本
             _opts.text.split('').forEach((n, i) => {
-                let str = _opts.text.slice(start, i + 1)
+                const str = _opts.text.slice(start, i + 1)
                 if (this.ctx.measureText(str).width < this.xDpr(_opts.width)) {
                     splitStr[index] = str
                 } else {
@@ -474,12 +475,12 @@ class WxCanvas2d {
                 destHeight: this.xDpr(_opts.destHeight),
                 canvas: this.canvas,
                 success: res => {
-                    let tempFilePath = res.tempFilePath
+                    const tempFilePath = res.tempFilePath
                     wx.getSetting({
                         success (res) {
                             // console.log(res)
                             // console.log(res.authSetting['scope.writePhotosAlbum'])
-                            if (!res.authSetting['scope.writePhotosAlbum']) {         
+                            if (!res.authSetting['scope.writePhotosAlbum']) {
                                 wx.authorize({
                                     scope: 'scope.writePhotosAlbum',
                                     success: () => {
@@ -494,7 +495,7 @@ class WxCanvas2d {
                                         })
                                     },
                                     fail: (err) => {
-                                        reject()
+                                        reject(err)
                                     }
                                 })
                             } else {
@@ -508,14 +509,11 @@ class WxCanvas2d {
                                     }
                                 })
                             }
-                           
-                            return
                         },
                         fail: err => {
                             reject(err)
                         }
                     })
-                    return
                 },
                 fail: err => {
                     reject(err)
