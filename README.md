@@ -83,6 +83,16 @@ canvas.draw({
                 { point: [100, 100] }
             ],
             zIndex: 0
+        },
+        {
+            type: 'rect', // 矩形
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            color: '',
+            bgColor: '',
+            radius: 0
         }
     ]
 }).then(() => {
