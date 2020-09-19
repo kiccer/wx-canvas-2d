@@ -6,7 +6,10 @@ module.exports = {
         es6: true
     },
     globals: {
-        $$ROOTURL: true
+        wx: true,
+        App: true,
+        Page: true,
+        Component: true
     },
     extends: [
         'standard'

@@ -1,0 +1,25 @@
+{
+    // "easysass.compileAfterSave": true,
+    // "easysass.formats": [
+    //     {
+    //         "format": "compressed",
+    //         "extension": ".wxss"
+    //     }
+    // ]
+    "liveSassCompile.settings.excludeList": [
+        "**",
+    ],
+    "liveSassCompile.settings.autoprefix": [
+        "> 1%",
+        "last 2 versions"
+    ],
+    "liveSassCompile.settings.formats": [
+        {
+            "format": "compressed",
+            "extensionName": ".wxss",
+            "savePath": null
+        }
+    ],
+    "liveSassCompile.settings.generateMap": false,
+    "liveSassCompile.settings.showOutputWindow": false
+}
