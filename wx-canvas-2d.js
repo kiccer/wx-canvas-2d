@@ -402,10 +402,12 @@ class WxCanvas2d {
 
             // 循环绘制文本
             splitStr.forEach((n, i) => {
+                const y = _opts.y + _opts.lineHeight * i + (_opts.lineHeight - _opts.fontSize) / 2
+
                 this.ctx.fillText(
                     n,
                     this.xDpr(_opts.x),
-                    this.xDpr(_opts.y + _opts.lineHeight * i)
+                    this.xDpr(y)
                 )
             })
 
