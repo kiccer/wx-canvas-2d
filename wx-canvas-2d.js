@@ -288,18 +288,32 @@ class WxCanvas2d {
                         // console.log(res)
                         const imgWidth = res.width
                         const imgHeight = res.height
-                        const imgMaxSide = Math.max(imgWidth, imgHeight)
-                        const imgMinSide = Math.min(imgWidth, imgHeight)
+                        const aspectRatio = width / height
+                        let widthRatio = 1
+                        let heightRatio = 1
+
+                        // 原图等比例缩放后截取范围的长宽比
+                        if (mode === 'aspectFit') {
+                            widthRatio = res.width / res.height < aspectRatio
+                                ? width / res.width * res.height / height : 1
+                            heightRatio = res.width / res.height > aspectRatio
+                                ? height / res.height * res.width / width : 1
+                        } else if (mode === 'aspectFill') {
+                            widthRatio = res.width / res.height > aspectRatio
+                                ? width / res.width * res.height / height : 1
+                            heightRatio = res.width / res.height < aspectRatio
+                                ? height / res.height * res.width / width : 1
+                        }
 
                         const imgCut = {
                             scaleToFill: [
                                 0, 0, imgWidth, imgHeight
                             ], // 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
                             aspectFit: [
-                                (imgWidth - imgMaxSide) / 2, (imgHeight - imgMaxSide) / 2, imgMaxSide, imgMaxSide
+                                (res.width - res.width * widthRatio) / 2, (res.height - res.height * heightRatio) / 2, res.width * widthRatio, res.height * heightRatio
                             ], // 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
                             aspectFill: [
-                                (imgWidth - imgMinSide) / 2, (imgHeight - imgMinSide) / 2, imgMinSide, imgMinSide
+                                (res.width - res.width * widthRatio) / 2, (res.height - res.height * heightRatio) / 2, res.width * widthRatio, res.height * heightRatio
                             ], // 缩放: 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。
                             widthFix: [], // 缩放: 宽度不变，高度自动变化，保持原图宽高比不变
                             top: [
