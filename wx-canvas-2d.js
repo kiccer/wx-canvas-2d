@@ -1,10 +1,9 @@
 /**
  * WxCanvas2d
  *
- * Anthor: kiccer
+ * Author: kiccer
+ * Github: https://github.com/kiccer/wx-canvas-2d
  */
-
-/* global wx */
 
 class WxCanvas2d {
     constructor () {
