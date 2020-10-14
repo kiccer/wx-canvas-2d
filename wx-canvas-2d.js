@@ -478,6 +478,7 @@ class WxCanvas2d {
                 height: 0,
                 destWidth: 0,
                 destHeight: 0,
+                modalOption: {},
                 ...opts
             }
 
@@ -491,51 +492,118 @@ class WxCanvas2d {
                 canvas: this.canvas,
                 success: res => {
                     const tempFilePath = res.tempFilePath
-                    wx.getSetting({
-                        success (res) {
-                            // console.log(res)
-                            // console.log(res.authSetting['scope.writePhotosAlbum'])
-                            if (!res.authSetting['scope.writePhotosAlbum']) {
-                                wx.authorize({
-                                    scope: 'scope.writePhotosAlbum',
-                                    success: () => {
-                                        wx.saveImageToPhotosAlbum({
-                                            filePath: tempFilePath,
-                                            success: response => {
-                                                resolve()
-                                            },
-                                            fail: err => {
-                                                reject(err)
-                                            }
-                                        })
-                                    },
-                                    fail: (err) => {
-                                        reject(err)
+
+                    getAuth('writePhotosAlbum').then(res => {
+                        if (res.code === 1) {
+                            wx.showModal({
+                                title: _opts.modalOption.title || '获取权限',
+                                content: _opts.modalOption.content || '请前往开启相册权限',
+                                success: _opts.modalOption.success || (res => {
+                                    if (res.confirm) {
+                                        wx.openSetting()
+                                        reject(errCode(105))
+                                    } else if (res.cancel) {
+                                        reject(errCode(104))
                                     }
                                 })
-                            } else {
-                                wx.saveImageToPhotosAlbum({
-                                    filePath: tempFilePath,
-                                    success: response => {
-                                        resolve()
-                                    },
-                                    fail: err => {
-                                        reject(err)
-                                    }
-                                })
-                            }
-                        },
-                        fail: err => {
-                            reject(err)
+                            })
+                        } else if ([2, 3].includes(res.code)) {
+                            saveImageToPhotosAlbum(tempFilePath).then(res => {
+                                resolve()
+                            }).catch(() => {
+                                reject(errCode(102))
+                            })
                         }
+                    }).catch(() => {
+                        reject(errCode(101))
                     })
                 },
-                fail: err => {
-                    reject(err)
+                fail: () => {
+                    reject(errCode(100))
                 }
             })
         })
     }
+}
+
+/**
+ * 错误码字典
+ *
+ * @var {Object}
+ */
+const ERR_CODE = {
+    100: '生成图片失败',
+    101: '获取设置信息失败',
+    102: '保存图片到相册失败',
+    103: '授权失败',
+    104: '用户拒绝授权',
+    105: '用户前往授权页'
+}
+
+/**
+ * 生成错误代码信息
+ *
+ * @param   {Number}  code  错误码
+ *
+ * @return  {Object}        错误代码信息
+ */
+const errCode = function (code) {
+    return {
+        code,
+        msg: ERR_CODE[code]
+    }
+}
+
+/**
+ * 小程序获取权限
+ *
+ * @param   {String}  name  权限名称
+ *
+ * @return  {Promise}        Promise
+ */
+const getAuth = function (name) {
+    return new Promise((resolve, reject) => {
+        wx.getSetting({
+            success (res) {
+                const callback = code => ({ settings: res, code })
+
+                if (res.authSetting['scope.' + name] !== undefined && res.authSetting['scope.' + name] !== true) {
+                    // 用户主动取消过
+                    resolve(callback(1))
+                } else if (res.authSetting['scope.' + name] === undefined) {
+                    // 第一次向用户获取
+                    resolve(callback(2))
+                } else {
+                    // 用户已授权
+                    resolve(callback(3))
+                }
+            },
+            fail (err) {
+                reject(err)
+            }
+        })
+    })
+}
+
+/**
+ * 保存图片到相册
+ *
+ * @param   {String}  tempFilePath  临时文件路径
+ *
+ * @return  {Promise}                Promise
+ */
+const saveImageToPhotosAlbum = function (tempFilePath) {
+    return new Promise((resolve, reject) => {
+        wx.saveImageToPhotosAlbum({
+            filePath: tempFilePath,
+            success: res => {
+                resolve()
+            },
+            fail: err => {
+                reject(err)
+            }
+        })
+    })
 }
 
 export default WxCanvas2d
