@@ -356,14 +356,14 @@ class WxCanvas2d {
                         )
                         resolve()
                     },
-                    fail: err => {
-                        reject(err)
+                    fail: () => {
+                        reject(errCode(106))
                     }
                 })
             }
 
-            img.onerror = (err) => {
-                reject(err)
+            img.onerror = () => {
+                reject(errCode(107))
             }
         })
     }
@@ -537,7 +537,9 @@ const ERR_CODE = {
     102: '保存图片到相册失败',
     103: '授权失败',
     104: '用户拒绝授权',
-    105: '用户前往授权页'
+    105: '用户前往授权页',
+    106: '获取图片信息失败',
+    107: '加载图片失败'
 }
 
 /**
