@@ -5,6 +5,8 @@
  * Github: https://github.com/kiccer/wx-canvas-2d
  */
 
+const SYS_INFO = wx.getSystemInfoSync()
+
 class WxCanvas2d {
     constructor () {
         this.query = null // canvas 的查询条件
@@ -14,7 +16,9 @@ class WxCanvas2d {
         this.canvas = null // canvas 节点
         this.ctx = null // canvas 上下文
         this.dpr = null // 像素比
+        this.rootWidth = null // UI设计稿宽度
         this.fontFamily = 'sans-serif'
+        this.debugger = false
     }
 
     // 创建画布
@@ -46,12 +50,11 @@ class WxCanvas2d {
 
                     const canvas = res[0].node
                     const ctx = canvas.getContext('2d')
-                    const dpr = wx.getSystemInfoSync().pixelRatio
+                    const dpr = SYS_INFO.pixelRatio
 
                     this.canvas = canvas
                     this.ctx = ctx
                     this.dpr = dpr
-                    this.systemInfo = wx.getSystemInfoSync()
                     this.rootWidth = options.rootWidth
 
                     this.canvas.width = res[0].width * this.dpr
@@ -71,8 +74,8 @@ class WxCanvas2d {
             this.drawRectPath({
                 x: 0,
                 y: 0,
-                width: this.canvas.width / this.systemInfo.screenWidth / this.dpr * this.rootWidth,
-                height: this.canvas.height / this.systemInfo.screenWidth / this.dpr * this.rootWidth,
+                width: this.canvas.width / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
+                height: this.canvas.height / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
                 radius: this.radius
             })
 
@@ -87,7 +90,7 @@ class WxCanvas2d {
 
     // canvas 大小适配
     xDpr (val) {
-        return val * this.dpr * this.systemInfo.screenWidth / this.rootWidth
+        return val * this.dpr * SYS_INFO.screenWidth / this.rootWidth
     }
 
     // 绘制画布 (重设画布大小)
@@ -131,21 +134,27 @@ class WxCanvas2d {
                         if (index < _series.length) {
                             const options = _series[index]
                             if (drawFunc[options.type]) {
+                                // this.debugger && logout(`正在绘制 [${options.type}] (${index + 1}/${_series.length})`)
                                 this.styleClear() // 绘制新图层前，先还原一次样式设置
                                 drawFunc[options.type](options).then(() => {
+                                    this.debugger && logout(`绘制成功 [${options.type}] (${index + 1}/${_series.length})`)
                                     next(++index)
                                 }).catch(err => {
+                                    this.debugger && logout('绘制失败')
                                     reject(err) // 绘制失败抛错
                                 })
                             } else {
-                                console.warn(`[WxCanvas2d] Unknown type: '${options.type}'`)
+                                // console.warn(`[WxCanvas2d] Unknown type: '${options.type}'`)
+                                this.debugger && logout(`未知类型 type: '${options.type}'`, 'error')
                                 next(++index)
                             }
                         } else {
+                            this.debugger && logout('绘制完成')
                             resolve() // 所有图层绘制完毕
                         }
                     }
 
+                    this.debugger && logout('开始绘制')
                     next() // 开始按顺序绘制图层
                 })
         })
@@ -156,7 +165,7 @@ class WxCanvas2d {
         this.ctx.setTextAlign = 'left'
         this.ctx.textBaseline = 'top'
         this.ctx.fillStyle = '#000'
-        this.ctx.font = `${this.xDpr(12 * this.rootWidth / this.systemInfo.screenWidth)}px ${this.fontFamily}`
+        this.ctx.font = `${this.xDpr(12 * this.rootWidth / SYS_INFO.screenWidth)}px ${this.fontFamily}`
         this.ctx.lineCap = 'butt'
         this.ctx.setLineDash([1, 0])
         this.ctx.lineDashOffset = 0
@@ -501,24 +510,30 @@ class WxCanvas2d {
                                 success: _opts.modalOption.success || (res => {
                                     if (res.confirm) {
                                         wx.openSetting()
+                                        this.debugger && logout(`${ERR_CODE[105]} (105)`, 'error')
                                         reject(errCode(105))
                                     } else if (res.cancel) {
+                                        this.debugger && logout(`${ERR_CODE[104]} (104)`, 'error')
                                         reject(errCode(104))
                                     }
                                 })
                             })
                         } else if ([2, 3].includes(res.code)) {
                             saveImageToPhotosAlbum(tempFilePath).then(res => {
+                                this.debugger && logout('保存图片到相册成功')
                                 resolve()
                             }).catch(() => {
+                                this.debugger && logout(`${ERR_CODE[102]} (102)`, 'error')
                                 reject(errCode(102))
                             })
                         }
                     }).catch(() => {
+                        this.debugger && logout(`${ERR_CODE[101]} (101)`, 'error')
                         reject(errCode(101))
                     })
                 },
                 fail: () => {
+                    this.debugger && logout(`${ERR_CODE[100]} (100)`, 'error')
                     reject(errCode(100))
                 }
             })
@@ -606,6 +621,54 @@ const saveImageToPhotosAlbum = function (tempFilePath) {
             }
         })
     })
+}
+
+/**
+ * 控制台输出信息
+ *
+ * @param {*} msg 输出信息
+ * @param {string} [type='info'] 输出类型
+ */
+const logout = function (msg, type = 'info') {
+    if (!msg) return
+
+    const log = function (style1, style2) {
+        console.log(`%cWxCanvas2d%c${msg}`, `
+            color: ${style1.color};
+            background-color: ${style1.bgColor};
+            padding: 1px 4px;
+            border-radius: 4px 0 0 4px;
+        `, `
+            color: ${style2.color};
+            background-color: ${style2.bgColor};
+            padding: 1px 4px;
+            border-radius: 0 4px 4px 0;
+        `)
+    }
+
+    if (SYS_INFO.brand === 'devtools') {
+        if (type === 'info') {
+            log({
+                color: '#006727',
+                bgColor: '#2BDC70'
+            }, {
+                color: '#084BBC',
+                bgColor: '#81A9F0'
+            })
+        } else if (type === 'error') {
+            log({
+                color: '#006727',
+                bgColor: '#2BDC70'
+            }, {
+                color: '#D82E2E',
+                bgColor: '#FFB2B2'
+            })
+        } else {
+            console.log(`WxCanvas2d: ${msg}`)
+        }
+    } else {
+        console.debug(`WxCanvas2d: ${msg}`)
+    }
 }
 
 export default WxCanvas2d
