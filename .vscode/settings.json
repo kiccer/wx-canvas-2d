@@ -1,4 +1,8 @@
 {
+    "files.associations": {
+        "*.wxml": "wxml",
+        "*.wxss": "css"
+    },
     // "easysass.compileAfterSave": true,
     // "easysass.formats": [
     //     {
@@ -21,5 +25,40 @@
         }
     ],
     "liveSassCompile.settings.generateMap": false,
-    "liveSassCompile.settings.showOutputWindow": false
+    "liveSassCompile.settings.showOutputWindow": false,
+    "local-history.enabled": 0, // 关闭历史记录保存，该功能影响了小程序编译
+    "minapp-vscode.wxmlFormatter": "wxml",
+    "wxmlConfig.activeDisable": false,
+    "wxmlConfig.onSaveFormat": true,
+    "wxmlConfig.activeColor": {
+        "color": "#FFCA28"
+    },
+    "wxmlConfig.format": {
+        "brace_style": "collapse",
+        "end_with_newline": false,
+        "indent_char": " ",
+        "indent_handlebars": false,
+        "indent_inner_html": false,
+        "indent_scripts": "keep",
+        "indent_size": 4,
+        "indent_with_tabs": false,
+        "max_preserve_newlines": 1,
+        "wrap_attributes_count": 3,
+        "unformatted": "['text']",
+        "disable_automatic_closing_labels": false,
+        "preserve_newlines": true,
+        "wrap_attributes": "force-expand-multiline",
+        "editorconfig": true,
+        "space_after_anon_function": true,
+        "space_after_named_function": true,
+    },
+    // https://blog.csdn.net/u013301742/article/details/109096650
+    "multiCommand.commands": [
+        {
+            "command": "workbench.action.files.save",
+            "sequence": [
+                "workbench.action.files.saveAll"
+            ]
+        }
+    ]
 }

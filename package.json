@@ -2,7 +2,10 @@
     "name": "wx-canvas-2d",
     "version": "0.1.4",
     "description": "目前可用于在微信小程序中实现一些简单的海报图。",
-    "main": "wx-canvas-2d.js",
+    "main": "./miniprogramRoot/res/wx-canvas-2d.js",
+    "files": [
+        "./miniprogramRoot/res/wx-canvas-2d.js"
+    ],
     "dependencies": {},
     "devDependencies": {
         "eslint": "^7.9.0",
@@ -26,8 +29,5 @@
     "bugs": {
         "url": "https://github.com/kiccer/wx-canvas-2d/issues"
     },
-    "homepage": "https://github.com/kiccer/wx-canvas-2d#readme",
-    "files": [
-        "wx-canvas-2d.js"
-    ]
+    "homepage": "https://github.com/kiccer/wx-canvas-2d#readme"
 }
