@@ -8,10 +8,20 @@
             style="width: 100%; height: 100%;"
             disable-scroll="{{ true }}"
         />
-
-        <button
-            class="btn-save"
-            bindtap="saveImg"
-        >保存到相册</button>
     </view>
+
+    <button
+        class="btn-save"
+        wx:if="{{!toggle.show}}"
+        bindtap="showPost"
+    >生成海报图
+    </button>
+
+    <button
+        class="btn-save"
+        wx:else
+        bindtap="saveImg"
+    >保存到相册
+    </button>
 </view>
+
