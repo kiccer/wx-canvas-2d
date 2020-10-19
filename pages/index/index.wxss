@@ -1,0 +1,1 @@
+.bodyer{padding:30rpx}.bodyer .card-wrapper{background-color:#E5E5E5;border-radius:16rpx;overflow:hidden}.bodyer .card-wrapper+.card-wrapper{margin-top:30rpx}.bodyer .card-wrapper .btn-show-post{height:auto !important;padding:2rpx 6rpx !important}

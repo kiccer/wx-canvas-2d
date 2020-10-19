@@ -1,0 +1,32 @@
+<!--components/post/index.wxml-->
+<van-popup
+    show="{{ show }}"
+    custom-style="background-color: transparent;"
+    bind:close="onClose"
+    bind:after-enter="onAfterEnter"
+    bind:before-leave="onBeforeLeave"
+>
+    <view class="canvas-wrapper">
+        <canvas
+            type="2d"
+            id="poster-canvas"
+            class="poster-canvas"
+            style="width: 100%; height: 100%;"
+            disable-scroll="{{ true }}"
+        />
+    </view>
+
+    <van-button
+        block
+        round
+        type="info"
+        bind:click="saveImg"
+    >保存到相册</van-button>
+
+    <van-button
+        round
+        icon="cross"
+        custom-class="btn-close"
+        bind:click="onClose"
+    />
+</van-popup>

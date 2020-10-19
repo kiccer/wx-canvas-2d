@@ -1,0 +1,1 @@
+.canvas-wrapper{width:600rpx;height:900rpx;margin-bottom:40rpx}.btn-close{display:inline-block;margin-top:40rpx;color:#fff !important;background-color:transparent !important;position:relative;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}

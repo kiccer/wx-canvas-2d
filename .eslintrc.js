@@ -9,7 +9,8 @@ module.exports = {
         wx: true,
         App: true,
         Page: true,
-        Component: true
+        Component: true,
+        getApp: true
     },
     extends: [
         'standard'

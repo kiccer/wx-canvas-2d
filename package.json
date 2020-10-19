@@ -1,18 +1,22 @@
 {
     "name": "wx-canvas-2d",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "目前可用于在微信小程序中实现一些简单的海报图。",
-    "main": "./miniprogramRoot/res/wx-canvas-2d.js",
+    "main": "./res/wx-canvas-2d.js",
     "files": [
-        "./miniprogramRoot/res/wx-canvas-2d.js"
+        "./res/wx-canvas-2d.js"
     ],
-    "dependencies": {},
+    "dependencies": {
+        "@vant/weapp": "^1.5.2",
+        "numeral": "^2.0.6"
+    },
     "devDependencies": {
         "eslint": "^7.9.0",
         "standard": "^14.3.4"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint-fix": "eslint --fix --ext .js pages components res app.js"
     },
     "repository": {
         "type": "git",
