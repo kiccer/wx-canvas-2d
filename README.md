@@ -2,6 +2,11 @@
 
 目前可用于实现一些简单的海报图。
 
+<!-- ![预览图](./img/demo/1.png) -->
+<div align="center">
+    <img src="./img/demo/1.png" width="300" />
+</div>
+
 ### INSTALL
 
 ```
