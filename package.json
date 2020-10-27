@@ -6,8 +6,7 @@
     "files": [
         "res/wx-canvas-2d.js"
     ],
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "eslint": "^7.9.0",
         "standard": "^14.3.4",

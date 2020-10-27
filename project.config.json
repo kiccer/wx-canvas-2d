@@ -1,18 +1,19 @@
 {
-	"description": "项目配置文件",
+    "description": "项目配置文件",
+    "miniprogramRoot": "./",
 	"packOptions": {
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"enhance": false,
 		"postcss": true,
 		"preloadBackgroundData": false,
 		"minified": true,
-		"newFeature": false,
+		"newFeature": true,
 		"coverView": true,
-		"nodeModules": false,
+		"nodeModules": true,
 		"autoAudits": false,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
@@ -27,11 +28,13 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false,
+		"packNpmManually": false,
+		"packNpmRelationList": []
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.13.1",
+	"libVersion": "2.13.2",
 	"appid": "touristappid",
 	"projectname": "wx-canvas-2d-demo",
 	"debugOptions": {
