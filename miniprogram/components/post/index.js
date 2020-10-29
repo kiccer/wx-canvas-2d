@@ -29,6 +29,7 @@ Component({
     lifetimes: {
         attached () {
             // 在组件实例进入页面节点树时执行
+            canvas.debugger = true // open debugger
 
             setTimeout(() => {
                 // 创建
@@ -38,10 +39,10 @@ Component({
                     bgColor: '#fff', // 背景色，默认透明
                     component: this, // 自定义组件内需要传 this
                     radius: 16 // 海报图圆角，如果不需要可不填
-                }).then(res => {
-                    console.log(res)
+                }).then(() => {
+                    console.log('画布创建成功')
                 }).catch(err => {
-                    console.log('[WxCanvas2d] Canvas create fail: ', err)
+                    console.log('画布创建失败: ', err)
                 })
             }, 500)
         },
@@ -125,7 +126,7 @@ Component({
                         lineStyle: {
                             dash: [7, 3],
                             color: '#E9E9E9',
-                            width: 1
+                            width: 2
                         },
                         line: [
                             {

@@ -17,8 +17,9 @@ class WxCanvas2d {
         this.ctx = null // canvas 上下文
         this.dpr = null // 像素比
         this.rootWidth = null // UI设计稿宽度
-        this.fontFamily = 'sans-serif'
-        this.debugger = false
+        this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
+        this.startTime = Date.now()
+        this.debugger = false // 调试模式
     }
 
     // 创建画布
@@ -61,7 +62,7 @@ class WxCanvas2d {
                     this.canvas.height = res[0].height * this.dpr
                     // this.ctx.scale(this.dpr, this.dpr)
 
-                    resolve(this)
+                    resolve()
                 })
         })
     }
@@ -97,6 +98,7 @@ class WxCanvas2d {
     draw (opts) {
         // console.log(opts)
         return new Promise((resolve, reject) => {
+            this.startTime = Date.now()
             const { series } = opts
 
             const query = this.component
@@ -149,7 +151,7 @@ class WxCanvas2d {
                                 next(++index)
                             }
                         } else {
-                            this.debugger && logout('绘制完成')
+                            this.debugger && logout(`绘制完成 (${Date.now() - this.startTime}ms)`)
                             resolve() // 所有图层绘制完毕
                         }
                     }
@@ -650,7 +652,7 @@ const logout = function (msg, type = 'info') {
     if (SYS_INFO.brand === 'devtools') {
         if (type === 'info') {
             log({
-                color: '#006727',
+                color: '#004B1C',
                 bgColor: '#2BDC70'
             }, {
                 color: '#084BBC',
