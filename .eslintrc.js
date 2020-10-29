@@ -10,7 +10,8 @@ module.exports = {
         App: true,
         Page: true,
         Component: true,
-        getApp: true
+        getApp: true,
+        requirePlugin: true
     },
     extends: [
         'standard'

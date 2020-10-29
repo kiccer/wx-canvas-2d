@@ -1,0 +1,19 @@
+{
+    "pages": [
+        "pages/index/index"
+    ],
+    "plugins": {
+        "wx-canvas-2d": {
+            "version": "dev",
+            "provider": "wx9da882c106b9ab9f"
+        }
+    },
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Weixin",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+}

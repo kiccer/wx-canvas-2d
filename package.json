@@ -2,16 +2,14 @@
     "name": "wx-canvas-2d",
     "version": "0.1.7",
     "description": "目前可用于在微信小程序中实现一些简单的海报图。",
-    "main": "res/wx-canvas-2d.js",
+    "main": "plugin/wx-canvas-2d.js",
     "files": [
-        "res/wx-canvas-2d.js"
+        "plugin/wx-canvas-2d.js"
     ],
     "dependencies": {},
     "devDependencies": {
         "eslint": "^7.9.0",
-        "standard": "^14.3.4",
-        "@vant/weapp": "^1.5.2",
-        "numeral": "^2.0.6"
+        "standard": "^14.3.4"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,5 +1,6 @@
 // components/post/index.js
-import WxCanvas2d from '../../res/wx-canvas-2d'
+// import WxCanvas2d from 'plugin/wx-canvas-2d'
+const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
 const canvas = new WxCanvas2d()
 

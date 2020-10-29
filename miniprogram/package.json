@@ -1,0 +1,29 @@
+{
+  "name": "wx-canvas-2d-demo",
+  "version": "1.0.0",
+  "description": "wx-canvas-2d 插件演示项目",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiccer/wx-canvas-2d.git"
+  },
+  "keywords": [
+    "wechat",
+    "canvas",
+    "poster",
+    "miniprogram"
+  ],
+  "author": "kiccer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kiccer/wx-canvas-2d/issues"
+  },
+  "homepage": "https://github.com/kiccer/wx-canvas-2d#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.5.2",
+    "numeral": "^2.0.6"
+  }
+}
