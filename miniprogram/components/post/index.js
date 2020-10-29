@@ -3,6 +3,7 @@
 const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
 const canvas = new WxCanvas2d()
+console.log({ canvas })
 
 Component({
     /**

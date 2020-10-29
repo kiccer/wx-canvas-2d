@@ -136,27 +136,27 @@ class WxCanvas2d {
                         if (index < _series.length) {
                             const options = _series[index]
                             if (drawFunc[options.type]) {
-                                // this.debugger && logout(`正在绘制 [${options.type}] (${index + 1}/${_series.length})`)
+                                // this.debugLogout(`正在绘制 [${options.type}] (${index + 1}/${_series.length})`)
                                 this.styleClear() // 绘制新图层前，先还原一次样式设置
                                 drawFunc[options.type](options).then(() => {
-                                    this.debugger && logout(`绘制成功 [${options.type}] (${index + 1}/${_series.length})`)
+                                    this.debugLogout(`绘制成功 [${options.type}] (${index + 1}/${_series.length})`)
                                     next(++index)
                                 }).catch(err => {
-                                    this.debugger && logout('绘制失败')
+                                    this.debugLogout('绘制失败')
                                     reject(err) // 绘制失败抛错
                                 })
                             } else {
                                 // console.warn(`[WxCanvas2d] Unknown type: '${options.type}'`)
-                                this.debugger && logout(`未知类型 type: '${options.type}'`, 'error')
+                                this.debugLogout(`未知类型 type: '${options.type}'`, 'error')
                                 next(++index)
                             }
                         } else {
-                            this.debugger && logout(`绘制完成 (${Date.now() - this.startTime}ms)`)
+                            this.debugLogout(`绘制完成 (${Date.now() - this.startTime}ms)`)
                             resolve() // 所有图层绘制完毕
                         }
                     }
 
-                    this.debugger && logout('开始绘制')
+                    this.debugLogout('开始绘制')
                     next() // 开始按顺序绘制图层
                 })
         })
@@ -513,36 +513,49 @@ class WxCanvas2d {
                                 success: _opts.modalOption.success || (res => {
                                     if (res.confirm) {
                                         wx.openSetting()
-                                        this.debugger && logout(`${ERR_CODE[105]} (105)`, 'error')
+                                        this.debugLogout(`${ERR_CODE[105]} (105)`, 'error')
                                         reject(errCode(105))
                                     } else if (res.cancel) {
-                                        this.debugger && logout(`${ERR_CODE[104]} (104)`, 'error')
+                                        this.debugLogout(`${ERR_CODE[104]} (104)`, 'error')
                                         reject(errCode(104))
                                     }
                                 })
                             })
                         } else if ([2, 3].includes(res.code)) {
                             saveImageToPhotosAlbum(tempFilePath).then(res => {
-                                this.debugger && logout('保存图片到相册成功')
+                                this.debugLogout('保存图片到相册成功')
                                 resolve()
                             }).catch(() => {
-                                this.debugger && logout(`${ERR_CODE[102]} (102)`, 'error')
+                                this.debugLogout(`${ERR_CODE[102]} (102)`, 'error')
                                 reject(errCode(102))
                             })
                         }
                     }).catch(() => {
-                        this.debugger && logout(`${ERR_CODE[101]} (101)`, 'error')
+                        this.debugLogout(`${ERR_CODE[101]} (101)`, 'error')
                         reject(errCode(101))
                     })
                 },
                 fail: () => {
-                    this.debugger && logout(`${ERR_CODE[100]} (100)`, 'error')
+                    this.debugLogout(`${ERR_CODE[100]} (100)`, 'error')
                     reject(errCode(100))
                 }
             })
         })
     }
+
+    // 输出调试信息
+    debugLogout (...args) {
+        if (this.debugger) {
+            logout(...args)
+        }
+    }
 }
+
+// const debugLogout = function (...args) {
+//     if (this.debugger) {
+//         logout(...args)
+//     }
+// }
 
 /**
  * 错误码字典
