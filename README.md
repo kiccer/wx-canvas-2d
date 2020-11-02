@@ -56,6 +56,7 @@ canvas.draw({
             width: 600,
             height: 600,
             mode: 'scaleToFill', // 图片的裁剪方式，参考小程序 image 标签的 mode 属性
+            radius: 0, // 图片圆角
             zIndex: 0
         },
         {
