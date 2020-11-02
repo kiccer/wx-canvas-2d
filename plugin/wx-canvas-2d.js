@@ -174,6 +174,7 @@ class WxCanvas2d {
         this.ctx.lineJoin = 'bevel'
         this.ctx.lineWidth = this.xDpr(1)
         this.ctx.strokeStyle = '#000'
+        // this.setContainerRadius()
     }
 
     // 绘制矩形
@@ -270,6 +271,7 @@ class WxCanvas2d {
             width: 0,
             height: 0,
             mode: 'scaleToFill',
+            radius: 0,
             ...opts
         }
 
@@ -287,7 +289,7 @@ class WxCanvas2d {
         // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
-            const { url, x, y, width, height, mode } = _opts
+            const { url, x, y, width, height, mode, radius } = _opts
             const img = this.canvas.createImage()
 
             img.src = url
@@ -356,6 +358,12 @@ class WxCanvas2d {
                         }
                         // console.log(mode)
 
+                        if (radius) {
+                            this.ctx.save()
+                            this.drawRectPath({ x, y, width, height, radius })
+                            this.ctx.clip()
+                        }
+
                         this.ctx.drawImage(
                             img,
                             // ...(imgCut[mode] || imgCut.scaleToFill).map((n, i) => i >= 4 ? this.xDpr(n) : n)
@@ -365,6 +373,11 @@ class WxCanvas2d {
                             this.xDpr(width || res.width),
                             this.xDpr(height || res.height)
                         )
+
+                        if (radius) {
+                            this.ctx.restore()
+                        }
+
                         resolve()
                     },
                     fail: () => {
