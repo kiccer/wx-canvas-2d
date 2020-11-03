@@ -4,7 +4,6 @@
  * Author: kiccer
  * Github: https://github.com/kiccer/wx-canvas-2d
  */
-
 import {
     canvasRGB as stackblurCanvasRGB
 } from 'stackblur-canvas'
@@ -25,6 +24,13 @@ class WxCanvas2d {
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
         this.startTime = Date.now()
         this.debugger = false // 调试模式
+
+        // Object.defineProperty(this, 'extendDrawMethods', {
+        //     value: {},
+        //     writable: false,
+        //     enumerable: false,
+        //     configurable: true
+        // })
     }
 
     // 创建画布
@@ -130,10 +136,11 @@ class WxCanvas2d {
 
                     // 绘制方法映射表
                     const drawFunc = {
-                        rect: (...opts) => this.drawRect(...opts),
-                        image: (...opts) => this.drawImage(...opts),
-                        text: (...opts) => this.drawText(...opts),
-                        line: (...opts) => this.drawLine(...opts)
+                        rect: (cvs, ...opts) => this.drawRect(...opts),
+                        image: (cvs, ...opts) => this.drawImage(...opts),
+                        text: (cvs, ...opts) => this.drawText(...opts),
+                        line: (cvs, ...opts) => this.drawLine(...opts),
+                        ...WxCanvas2d.extendDrawMethods
                     }
 
                     // 按顺序绘制图层方法
@@ -143,7 +150,7 @@ class WxCanvas2d {
                             if (drawFunc[options.type]) {
                                 // this.debugLogout(`正在绘制 [${options.type}] (${index + 1}/${_series.length})`)
                                 this.styleClear() // 绘制新图层前，先还原一次样式设置
-                                drawFunc[options.type](options).then(() => {
+                                drawFunc[options.type](this, options).then(() => {
                                     this.debugLogout(`绘制成功 [${options.type}] (${index + 1}/${_series.length})`)
                                     next(++index)
                                 }).catch(err => {
@@ -581,6 +588,19 @@ class WxCanvas2d {
             logout(...args)
         }
     }
+
+    // 增加新的绘制类型
+    // addSeries (type, handle) {
+    //     this.extendDrawMethods[type] = (...opts) => {
+    //         handle(this, ...opts)
+    //     }
+    // }
+}
+
+WxCanvas2d.extendDrawMethods = {}
+
+WxCanvas2d.addSeries = function (type, handle) {
+    WxCanvas2d.extendDrawMethods[type] = handle
 }
 
 // const debugLogout = function (...args) {
@@ -718,5 +738,7 @@ const logout = function (msg, type = 'info') {
         console.debug(`WxCanvas2d: ${msg}`)
     }
 }
+
+// console.log({ WxCanvas2d })
 
 export default WxCanvas2d

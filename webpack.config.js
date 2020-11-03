@@ -15,7 +15,15 @@ module.exports = {
         poll: 1000
     },
     module: {
-        rules: []
+        // rules: [
+        //     {
+        //         test: /\.js$/,
+        //         use: {
+        //             loader: 'babel-loader'
+        //         },
+        //         exclude: '/node_modules/'
+        //     }
+        // ]
     },
     plugins: []
 }

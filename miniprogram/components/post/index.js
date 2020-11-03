@@ -2,6 +2,13 @@
 // import WxCanvas2d from 'plugin/wx-canvas-2d'
 const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
+WxCanvas2d.addSeries('test', (cvs, opts) => {
+    return new Promise((resolve, reject) => {
+        // console.log(cvs, opts)
+        resolve()
+    })
+})
+
 const canvas = new WxCanvas2d()
 // console.log({ canvas })
 
