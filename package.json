@@ -1,6 +1,6 @@
 {
     "name": "wx-canvas-2d",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "目前可用于在微信小程序中实现一些简单的海报图。",
     "main": "plugin/wx-canvas-2d.min.js",
     "files": [
