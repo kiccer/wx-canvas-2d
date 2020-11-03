@@ -88,6 +88,14 @@ Component({
                         height: 600,
                         mode: 'aspectFill'
                     },
+                    // {
+                    //     type: 'blur',
+                    //     x: 0,
+                    //     y: 0,
+                    //     width: 600,
+                    //     height: 600,
+                    //     blur: 40
+                    // },
                     {
                         type: 'text',
                         text: item.name,
@@ -152,18 +160,18 @@ Component({
                         y: 760,
                         width: 120,
                         height: 120
-                    },
-                    {
-                        type: 'image',
-                        url: '../../img/avatar.png',
-                        x: 200,
-                        y: 200,
-                        width: 200,
-                        height: 200,
-                        mode: 'aspectFill',
-                        radius: 100,
-                        blur: 50
                     }
+                    // {
+                    //     type: 'image',
+                    //     url: '../../img/avatar.png',
+                    //     x: 200,
+                    //     y: 200,
+                    //     width: 200,
+                    //     height: 200,
+                    //     mode: 'aspectFill',
+                    //     radius: 100,
+                    //     blur: 50
+                    // }
                 ]
             }).then(() => {
                 console.log('绘制成功！')

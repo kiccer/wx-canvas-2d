@@ -7,7 +7,7 @@
 import {
     canvasRGB as stackblurCanvasRGB
 } from 'stackblur-canvas'
-console.log({ stackblurCanvasRGB })
+// console.log({ stackblurCanvasRGB })
 
 const SYS_INFO = wx.getSystemInfoSync()
 
@@ -140,6 +140,7 @@ class WxCanvas2d {
                         image: (cvs, ...opts) => this.drawImage(...opts),
                         text: (cvs, ...opts) => this.drawText(...opts),
                         line: (cvs, ...opts) => this.drawLine(...opts),
+                        blur: (cvs, ...opts) => this.drawBlur(...opts),
                         ...WxCanvas2d.extendDrawMethods
                     }
 
@@ -514,6 +515,37 @@ class WxCanvas2d {
                     this.ctx.stroke()
                 }
             })
+
+            resolve()
+        })
+    }
+
+    // 绘制模糊范围
+    drawBlur (opts) {
+        return new Promise((resolve, reject) => {
+            const _opts = {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+                blur: 0,
+                ...opts
+            }
+
+            const { x, y, width, height, blur } = _opts
+
+            try {
+                stackblurCanvasRGB(
+                    this.canvas,
+                    this.xDpr(x),
+                    this.xDpr(y),
+                    this.xDpr(width),
+                    this.xDpr(height),
+                    blur
+                )
+            } catch (err) {
+                reject(err)
+            }
 
             resolve()
         })
