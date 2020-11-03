@@ -5,6 +5,9 @@
  * Github: https://github.com/kiccer/wx-canvas-2d
  */
 
+// import { canvasRGB } from '../node_modules/stackblur-canvas'
+// console.log(canvasRGB)
+
 const SYS_INFO = wx.getSystemInfoSync()
 
 class WxCanvas2d {
@@ -272,6 +275,7 @@ class WxCanvas2d {
             height: 0,
             mode: 'scaleToFill',
             radius: 0,
+            blur: 0,
             ...opts
         }
 
@@ -289,7 +293,7 @@ class WxCanvas2d {
         // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
-            const { url, x, y, width, height, mode, radius } = _opts
+            const { url, x, y, width, height, mode, radius, blur } = _opts
             const img = this.canvas.createImage()
 
             img.src = url
@@ -373,6 +377,11 @@ class WxCanvas2d {
                             this.xDpr(width || res.width),
                             this.xDpr(height || res.height)
                         )
+
+                        if (blur) {
+                            // console.log(this)
+                            // canvasRGB()
+                        }
 
                         if (radius) {
                             this.ctx.restore()
