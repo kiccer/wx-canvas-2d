@@ -100,7 +100,16 @@ canvas.draw({
             bgColor: '',
             radius: 0,
             zIndex: 0
-        }
+        },
+        {
+            type: 'blur', // 高斯模糊
+            x: 0,
+            y: 0,
+            width: 600,
+            height: 600,
+            blur: 40, // 值越大越模糊
+            zIndex: 0
+        },
     ]
 }).then(() => {
     console.log('绘制成功！')
