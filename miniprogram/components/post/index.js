@@ -3,7 +3,7 @@
 const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
 const canvas = new WxCanvas2d()
-console.log({ canvas })
+// console.log({ canvas })
 
 Component({
     /**
@@ -79,7 +79,7 @@ Component({
                         y: 0,
                         width: 600,
                         height: 600,
-                        mode: 'aspectFill' // 图片的裁剪方式，参考小程序 image 标签的 mode 属性
+                        mode: 'aspectFill'
                     },
                     {
                         type: 'text',
@@ -154,7 +154,8 @@ Component({
                         width: 200,
                         height: 200,
                         mode: 'aspectFill',
-                        radius: 100
+                        radius: 100,
+                        blur: 50
                     }
                 ]
             }).then(() => {

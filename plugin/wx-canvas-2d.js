@@ -5,8 +5,10 @@
  * Github: https://github.com/kiccer/wx-canvas-2d
  */
 
-// import { canvasRGB } from '../node_modules/stackblur-canvas'
-// console.log(canvasRGB)
+import {
+    canvasRGB as stackblurCanvasRGB
+} from 'stackblur-canvas'
+console.log({ stackblurCanvasRGB })
 
 const SYS_INFO = wx.getSystemInfoSync()
 
@@ -275,7 +277,6 @@ class WxCanvas2d {
             height: 0,
             mode: 'scaleToFill',
             radius: 0,
-            blur: 0,
             ...opts
         }
 
@@ -293,7 +294,7 @@ class WxCanvas2d {
         // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
-            const { url, x, y, width, height, mode, radius, blur } = _opts
+            const { url, x, y, width, height, mode, radius } = _opts
             const img = this.canvas.createImage()
 
             img.src = url
@@ -302,6 +303,8 @@ class WxCanvas2d {
                     src: url,
                     success: res => {
                         // console.log(res)
+                        // console.log(wx.getFileSystemManager)
+                        // console.log(wx.getFileSystemManager().readFileSync(res, 'base64'))
                         const imgWidth = res.width
                         const imgHeight = res.height
                         const aspectRatio = width / height
@@ -378,10 +381,17 @@ class WxCanvas2d {
                             this.xDpr(height || res.height)
                         )
 
-                        if (blur) {
-                            // console.log(this)
-                            // canvasRGB()
-                        }
+                        // if (blur) {
+                        //     // console.log(this)
+                        //     canvasRGB(
+                        //         this.canvas,
+                        //         this.xDpr(x) || 0,
+                        //         this.xDpr(y) || 0,
+                        //         this.xDpr(width || res.width),
+                        //         this.xDpr(height || res.height),
+                        //         blur
+                        //     )
+                        // }
 
                         if (radius) {
                             this.ctx.restore()

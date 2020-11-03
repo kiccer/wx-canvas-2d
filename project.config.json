@@ -33,5 +33,6 @@
 	"projectname": "wx-canvas-2d",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"libVersion": "2.13.2",
 	"condition": {}
 }
