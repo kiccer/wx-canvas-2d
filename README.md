@@ -76,14 +76,7 @@ canvas.draw({
         },
         {
             type: 'line', // 线段
-            lineStyle: {
-                cap: 'butt', // butt | round | square
-                join: 'bevel', // bevel | round | miter
-                offset: 0,
-                dash: [1, 0],
-                color: '#000',
-                width: 1
-            },
+            lineStyle: {},
             line: [
                 { point: [0, 0] },
                 { point: [100, 100] }
@@ -96,9 +89,9 @@ canvas.draw({
             y: 0,
             width: 0,
             height: 0,
-            color: '',
             bgColor: '',
             radius: 0,
+            lineStyle: {},
             zIndex: 0
         },
         {
@@ -108,6 +101,17 @@ canvas.draw({
             width: 600,
             height: 600,
             blur: 40, // 值越大越模糊
+            zIndex: 0
+        },
+        {
+            type: 'arc', // 弧线
+            x: 0,
+            y: 0,
+            r: 0,
+            start: 0,
+            end: 0,
+            reverse: false,
+            lineStyle: {},
             zIndex: 0
         },
     ]
@@ -131,6 +135,32 @@ canvas.saveToAlbum({
 }).catch(err => {
     wx.showModal({
         content: '图片保存失败'
+    })
+})
+```
+
+### lineStyle 对象默认值
+```js
+lineStyle = {
+    cap: 'butt', // butt | round | square
+    join: 'bevel', // bevel | round | miter
+    offset: 0,
+    dash: [1, 0],
+    color: '#000',
+    width: 2
+}
+```
+
+### 增加自定义绘制方法
+```js
+import WxCanvas2d from 'wx-canvas-2d'
+
+WxCanvas2d.addSeries('new_type', (cvs, opts) => {
+    return new Promise((resolve, reject) => {
+        // 自定义绘制
+        // cvs 为实例内部 this 变量，可获取到 canvas 上下文，以及调用一些内部方法
+        // opts 为绘制方法接收到的配置项
+        resolve() // 绘制完成必须调用 resolve 方法，不然无法继续进行
     })
 })
 ```
