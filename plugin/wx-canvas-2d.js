@@ -191,6 +191,25 @@ class WxCanvas2d {
         // this.setContainerRadius()
     }
 
+    // 设置线的样式
+    setLineStyle (lineStyle) {
+        const {
+            cap = 'butt', // butt | round | square
+            join = 'bevel', // bevel | round | miter
+            offset = 0,
+            dash = [1, 0],
+            color = '#000',
+            width = 2
+        } = lineStyle
+
+        this.ctx.lineCap = cap
+        this.ctx.setLineDash(dash.map(n => this.xDpr(n)))
+        this.ctx.lineDashOffset = this.xDpr(offset)
+        this.ctx.lineJoin = join
+        this.ctx.lineWidth = this.xDpr(width)
+        this.ctx.strokeStyle = color
+    }
+
     // 绘制矩形
     drawRect (opts) {
         return new Promise((resolve, reject) => {
@@ -199,16 +218,20 @@ class WxCanvas2d {
                 y = 0,
                 width = 0,
                 height = 0,
-                color = '',
+                // color = '',
                 bgColor = '',
-                radius = 0
+                radius = 0,
+                lineStyle
                 // blur = 0
             } = opts
 
             // 防止 radius 设置过大
             radius = Math.min(radius, Math.min(width, height) / 2)
 
-            this.ctx.strokeStyle = color
+            // this.ctx.strokeStyle = color
+            // 设置线段样式
+            this.setLineStyle(lineStyle)
+            // 设置填充色
             this.ctx.fillStyle = bgColor
 
             // if (blur) {
@@ -498,29 +521,16 @@ class WxCanvas2d {
     drawLine (opts) {
         // console.log(opts)
         return new Promise((resolve, reject) => {
-            const _opts = {
-                lineStyle: {
-                    cap: 'butt', // butt | round | square
-                    join: 'bevel', // bevel | round | miter
-                    offset: 0,
-                    dash: [1, 0],
-                    color: '#000',
-                    width: 1,
-                    ...opts.lineStyle
-                },
-                line: opts.line || []
-            }
+            const {
+                lineStyle,
+                line = []
+            } = opts
 
             // 设置线段样式
-            this.ctx.lineCap = _opts.lineStyle.cap
-            this.ctx.setLineDash(_opts.lineStyle.dash.map(n => this.xDpr(n)))
-            this.ctx.lineDashOffset = this.xDpr(_opts.lineStyle.offset)
-            this.ctx.lineJoin = _opts.lineStyle.join
-            this.ctx.lineWidth = this.xDpr(_opts.lineStyle.width)
-            this.ctx.strokeStyle = _opts.lineStyle.color
+            this.setLineStyle(lineStyle)
 
             // 绘制线段
-            _opts.line.forEach((n, i) => {
+            line.forEach((n, i) => {
                 if (!i) {
                     this.ctx.beginPath()
                     this.ctx.moveTo(...n.point.map(n => this.xDpr(n)))
@@ -561,7 +571,7 @@ class WxCanvas2d {
     // 绘制弧形
     drawArc (opts) {
         return new Promise((resolve, reject) => {
-            let {
+            const {
                 x = 0,
                 y = 0,
                 r = 0,
@@ -571,23 +581,8 @@ class WxCanvas2d {
                 lineStyle
             } = opts
 
-            lineStyle = {
-                cap: 'butt', // butt | round | square
-                join: 'bevel', // bevel | round | miter
-                offset: 0,
-                dash: [1, 0],
-                color: '#000',
-                width: 1,
-                ...lineStyle
-            }
-
             // 设置线段样式
-            this.ctx.lineCap = lineStyle.cap
-            this.ctx.setLineDash(lineStyle.dash.map(n => this.xDpr(n)))
-            this.ctx.lineDashOffset = this.xDpr(lineStyle.offset)
-            this.ctx.lineJoin = lineStyle.join
-            this.ctx.lineWidth = this.xDpr(lineStyle.width)
-            this.ctx.strokeStyle = lineStyle.color
+            this.setLineStyle(lineStyle)
 
             // 绘制线段
             this.ctx.beginPath()
