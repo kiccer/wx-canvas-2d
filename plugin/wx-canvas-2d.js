@@ -193,33 +193,51 @@ class WxCanvas2d {
     // 绘制矩形
     drawRect (opts) {
         return new Promise((resolve, reject) => {
-            const _opts = {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-                color: '',
-                bgColor: '',
-                radius: 0,
-                ...opts
-            }
+            let {
+                x = 0,
+                y = 0,
+                width = 0,
+                height = 0,
+                color = '',
+                bgColor = '',
+                radius = 0
+                // blur = 0
+            } = opts
 
-            this.ctx.strokeStyle = _opts.color
-            this.ctx.fillStyle = _opts.bgColor
+            // 防止 radius 设置过大
+            radius = Math.min(radius, Math.min(width, height) / 2)
+
+            this.ctx.strokeStyle = color
+            this.ctx.fillStyle = bgColor
+
+            // if (blur) {
+            //     // stackblurCanvasRGB(
+            //     //     this.canvas,
+            //     //     this.xDpr(x),
+            //     //     this.xDpr(y),
+            //     //     this.xDpr(width),
+            //     //     this.xDpr(height),
+            //     //     blur
+            //     // )
+
+            //     // wx.canvasGetImageData({
+
+            //     // }, this.component)
+            // }
 
             this.drawRectPath({
-                x: _opts.x,
-                y: _opts.y,
-                width: _opts.width,
-                height: _opts.height,
-                radius: _opts.radius
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                radius: radius
             })
 
-            if (_opts.color) {
+            if (color) {
                 this.ctx.stroke()
             }
 
-            if (_opts.bgColor) {
+            if (bgColor) {
                 this.ctx.fill()
             }
 
@@ -229,17 +247,14 @@ class WxCanvas2d {
 
     // 绘制矩形路径
     drawRectPath (opts) {
-        const _opts = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            radius: 0,
-            ...opts
-        }
+        const {
+            x = 0,
+            y = 0,
+            width = 0,
+            height = 0,
+            radius = 0
+        } = opts
         // console.log(_opts)
-
-        const { x, y, width, height, radius } = _opts
 
         // 圆角起始/结束方向
         const angle = {
@@ -277,16 +292,15 @@ class WxCanvas2d {
     // 绘制图片
     drawImage (opts) {
         // console.log(opts)
-        const _opts = {
-            url: '',
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            mode: 'scaleToFill',
-            radius: 0,
-            ...opts
-        }
+        const {
+            url = '',
+            x = 0,
+            y = 0,
+            width = 0,
+            height = 0,
+            mode = 'scaleToFill',
+            radius = 0
+        } = opts
 
         // scaleToFill: 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
         // aspectFit: 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
@@ -302,7 +316,6 @@ class WxCanvas2d {
         // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
-            const { url, x, y, width, height, mode, radius } = _opts
             const img = this.canvas.createImage()
 
             img.src = url
@@ -534,18 +547,14 @@ class WxCanvas2d {
 
             const { x, y, width, height, blur } = _opts
 
-            try {
-                stackblurCanvasRGB(
-                    this.canvas,
-                    this.xDpr(x),
-                    this.xDpr(y),
-                    this.xDpr(width),
-                    this.xDpr(height),
-                    blur
-                )
-            } catch (err) {
-                reject(err)
-            }
+            stackblurCanvasRGB(
+                this.canvas,
+                this.xDpr(x),
+                this.xDpr(y),
+                this.xDpr(width),
+                this.xDpr(height),
+                blur
+            )
 
             resolve()
         })
