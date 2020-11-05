@@ -257,7 +257,7 @@ class WxCanvas2d {
                 radius: radius
             })
 
-            if (color) {
+            if (lineStyle.color) {
                 this.ctx.stroke()
             }
 
