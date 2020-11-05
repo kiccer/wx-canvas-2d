@@ -160,6 +160,18 @@ Component({
                         y: 760,
                         width: 120,
                         height: 120
+                    },
+                    {
+                        type: 'arc',
+                        x: 300,
+                        y: 300,
+                        r: 100,
+                        start: 0,
+                        end: Math.PI * 1.2,
+                        lineStyle: {
+                            color: 'red',
+                            width: 10
+                        }
                     }
                     // {
                     //     type: 'image',

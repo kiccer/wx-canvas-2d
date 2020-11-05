@@ -141,6 +141,7 @@ class WxCanvas2d {
                         text: (cvs, ...opts) => this.drawText(...opts),
                         line: (cvs, ...opts) => this.drawLine(...opts),
                         blur: (cvs, ...opts) => this.drawBlur(...opts),
+                        arc: (cvs, ...opts) => this.drawArc(...opts),
                         ...WxCanvas2d.extendDrawMethods
                     }
 
@@ -536,16 +537,13 @@ class WxCanvas2d {
     // 绘制模糊范围
     drawBlur (opts) {
         return new Promise((resolve, reject) => {
-            const _opts = {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-                blur: 0,
-                ...opts
-            }
-
-            const { x, y, width, height, blur } = _opts
+            const {
+                x = 0,
+                y = 0,
+                width = 0,
+                height = 0,
+                blur = 0
+            } = opts
 
             stackblurCanvasRGB(
                 this.canvas,
@@ -557,6 +555,51 @@ class WxCanvas2d {
             )
 
             resolve()
+        })
+    }
+
+    // 绘制弧形
+    drawArc (opts) {
+        return new Promise((resolve, reject) => {
+            let {
+                x = 0,
+                y = 0,
+                r = 0,
+                start = 0,
+                end = 0,
+                reverse = false,
+                lineStyle
+            } = opts
+
+            lineStyle = {
+                cap: 'butt', // butt | round | square
+                join: 'bevel', // bevel | round | miter
+                offset: 0,
+                dash: [1, 0],
+                color: '#000',
+                width: 1,
+                ...lineStyle
+            }
+
+            // 设置线段样式
+            this.ctx.lineCap = lineStyle.cap
+            this.ctx.setLineDash(lineStyle.dash.map(n => this.xDpr(n)))
+            this.ctx.lineDashOffset = this.xDpr(lineStyle.offset)
+            this.ctx.lineJoin = lineStyle.join
+            this.ctx.lineWidth = this.xDpr(lineStyle.width)
+            this.ctx.strokeStyle = lineStyle.color
+
+            // 绘制线段
+            this.ctx.beginPath()
+            this.ctx.arc(
+                this.xDpr(x),
+                this.xDpr(y),
+                this.xDpr(r),
+                start,
+                end,
+                reverse
+            )
+            this.ctx.stroke()
         })
     }
 

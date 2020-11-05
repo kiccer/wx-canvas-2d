@@ -14,6 +14,7 @@ module.exports = {
         ignored: './plugin',
         poll: 1000
     },
+    devtool: 'source-map',
     module: {
         // rules: [
         //     {
