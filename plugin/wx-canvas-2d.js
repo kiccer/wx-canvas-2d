@@ -1,9 +1,12 @@
-/**
- * WxCanvas2d
- *
- * Author: kiccer
- * Github: https://github.com/kiccer/wx-canvas-2d
+/*
+ * @Author: kiccer<1072907338@qq.com>
+ * @Date: 2020-11-17 21:23:04
+ * @LastEditors: kiccer
+ * @LastEditTime: 2020-11-17 22:18:41
+ * @FilePath: \wx-canvas-2d\plugin\wx-canvas-2d.js
+ * @Description: 微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。
  */
+
 import {
     canvasRGB as stackblurCanvasRGB
 } from 'stackblur-canvas'
