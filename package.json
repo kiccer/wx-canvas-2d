@@ -1,7 +1,7 @@
 {
     "name": "wx-canvas-2d",
     "version": "0.4.0",
-    "description": "目前可用于在微信小程序中实现一些简单的海报图。",
+    "description": "微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。",
     "main": "plugin/wx-canvas-2d.min.js",
     "files": [
         "plugin/wx-canvas-2d.min.js"
@@ -33,8 +33,13 @@
     "keywords": [
         "wechat",
         "miniprogram",
+        "wx",
         "canvas",
-        "poster"
+        "canvas-2d",
+        "poster",
+        "微信",
+        "小程序",
+        "海报"
     ],
     "author": "kiccer",
     "license": "MIT",
