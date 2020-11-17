@@ -5,7 +5,7 @@
 
 <!-- ![预览图](./img/demo/1.png) -->
 <div align="center">
-    <img src="./img/demo/1.png" width="300" />
+    <img src="./miniprogram/img/demo/1.png" width="300" />
 </div>
 
 ### INSTALL
