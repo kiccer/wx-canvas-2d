@@ -2,7 +2,7 @@
  * @Author: kiccer<1072907338@qq.com>
  * @Date: 2020-09-17 14:54:09
  * @LastEditors: kiccer
- * @LastEditTime: 2020-11-17 22:34:25
+ * @LastEditTime: 2020-11-18 22:41:55
  * @FilePath: \wx-canvas-2d\plugin\wx-canvas-2d.js
  * @Description: 微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。
  */
@@ -195,7 +195,7 @@ class WxCanvas2d {
     }
 
     // 设置线的样式
-    setLineStyle (lineStyle) {
+    setLineStyle (lineStyle = {}) {
         const {
             cap = 'butt', // butt | round | square
             join = 'bevel', // bevel | round | miter
@@ -598,6 +598,7 @@ class WxCanvas2d {
                 reverse
             )
             this.ctx.stroke()
+            resolve()
         })
     }
 
