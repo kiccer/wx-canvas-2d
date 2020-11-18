@@ -1,19 +1,30 @@
 {
     "name": "wx-canvas-2d",
-    "version": "0.1.9",
-    "description": "目前可用于在微信小程序中实现一些简单的海报图。",
-    "main": "plugin/wx-canvas-2d.js",
+    "version": "1.0",
+    "description": "微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。",
+    "main": "plugin/wx-canvas-2d.min.js",
     "files": [
-        "plugin/wx-canvas-2d.js"
+        "plugin/wx-canvas-2d.min.js"
     ],
-    "dependencies": {},
+    "dependencies": {
+        "stackblur-canvas": "^2.4.0"
+    },
     "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-eslint": "^10.1.0",
+        "babel-loader": "^7.1.5",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-runtime": "^6.26.0",
         "eslint": "^7.9.0",
-        "standard": "^14.3.4"
+        "standard": "^14.3.4",
+        "webpack": "^4.44.2",
+        "webpack-cli": "^4.1.0"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "lint-fix": "eslint --fix --ext .js pages components res app.js"
+        "dev": "webpack --config webpack.config.js",
+        "lint-fix": "eslint --fix --ext .js pages components res app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
@@ -22,8 +33,13 @@
     "keywords": [
         "wechat",
         "miniprogram",
+        "wx",
         "canvas",
-        "poster"
+        "canvas-2d",
+        "poster",
+        "微信",
+        "小程序",
+        "海报"
     ],
     "author": "kiccer",
     "license": "MIT",

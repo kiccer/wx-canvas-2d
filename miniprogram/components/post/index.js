@@ -2,8 +2,15 @@
 // import WxCanvas2d from 'plugin/wx-canvas-2d'
 const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
+WxCanvas2d.addSeries('test', (cvs, opts) => {
+    return new Promise((resolve, reject) => {
+        // console.log(cvs, opts)
+        resolve()
+    })
+})
+
 const canvas = new WxCanvas2d()
-console.log({ canvas })
+// console.log({ canvas })
 
 Component({
     /**
@@ -79,8 +86,16 @@ Component({
                         y: 0,
                         width: 600,
                         height: 600,
-                        mode: 'aspectFill' // 图片的裁剪方式，参考小程序 image 标签的 mode 属性
+                        mode: 'aspectFill'
                     },
+                    // {
+                    //     type: 'blur',
+                    //     x: 0,
+                    //     y: 0,
+                    //     width: 600,
+                    //     height: 600,
+                    //     blur: 40
+                    // },
                     {
                         type: 'text',
                         text: item.name,
@@ -146,6 +161,29 @@ Component({
                         width: 120,
                         height: 120
                     }
+                    // {
+                    //     type: 'arc',
+                    //     x: 300,
+                    //     y: 300,
+                    //     r: 100,
+                    //     start: 0,
+                    //     end: Math.PI * 1.2,
+                    //     lineStyle: {
+                    //         color: 'red',
+                    //         width: 10
+                    //     }
+                    // }
+                    // {
+                    //     type: 'image',
+                    //     url: '../../img/avatar.png',
+                    //     x: 200,
+                    //     y: 200,
+                    //     width: 200,
+                    //     height: 200,
+                    //     mode: 'aspectFill',
+                    //     radius: 100,
+                    //     blur: 50
+                    // }
                 ]
             }).then(() => {
                 console.log('绘制成功！')

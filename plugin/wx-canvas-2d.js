@@ -1,9 +1,16 @@
-/**
- * WxCanvas2d
- *
- * Author: kiccer
- * Github: https://github.com/kiccer/wx-canvas-2d
+/*
+ * @Author: kiccer<1072907338@qq.com>
+ * @Date: 2020-09-17 14:54:09
+ * @LastEditors: kiccer
+ * @LastEditTime: 2020-11-18 22:41:55
+ * @FilePath: \wx-canvas-2d\plugin\wx-canvas-2d.js
+ * @Description: 微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。
  */
+
+import {
+    canvasRGB as stackblurCanvasRGB
+} from 'stackblur-canvas'
+// console.log({ stackblurCanvasRGB })
 
 const SYS_INFO = wx.getSystemInfoSync()
 
@@ -20,6 +27,13 @@ class WxCanvas2d {
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
         this.startTime = Date.now()
         this.debugger = false // 调试模式
+
+        // Object.defineProperty(this, 'extendDrawMethods', {
+        //     value: {},
+        //     writable: false,
+        //     enumerable: false,
+        //     configurable: true
+        // })
     }
 
     // 创建画布
@@ -125,10 +139,13 @@ class WxCanvas2d {
 
                     // 绘制方法映射表
                     const drawFunc = {
-                        rect: (...opts) => this.drawRect(...opts),
-                        image: (...opts) => this.drawImage(...opts),
-                        text: (...opts) => this.drawText(...opts),
-                        line: (...opts) => this.drawLine(...opts)
+                        rect: (cvs, ...opts) => this.drawRect(...opts),
+                        image: (cvs, ...opts) => this.drawImage(...opts),
+                        text: (cvs, ...opts) => this.drawText(...opts),
+                        line: (cvs, ...opts) => this.drawLine(...opts),
+                        blur: (cvs, ...opts) => this.drawBlur(...opts),
+                        arc: (cvs, ...opts) => this.drawArc(...opts),
+                        ...WxCanvas2d.extendDrawMethods
                     }
 
                     // 按顺序绘制图层方法
@@ -138,7 +155,7 @@ class WxCanvas2d {
                             if (drawFunc[options.type]) {
                                 // this.debugLogout(`正在绘制 [${options.type}] (${index + 1}/${_series.length})`)
                                 this.styleClear() // 绘制新图层前，先还原一次样式设置
-                                drawFunc[options.type](options).then(() => {
+                                drawFunc[options.type](this, options).then(() => {
                                     this.debugLogout(`绘制成功 [${options.type}] (${index + 1}/${_series.length})`)
                                     next(++index)
                                 }).catch(err => {
@@ -174,38 +191,80 @@ class WxCanvas2d {
         this.ctx.lineJoin = 'bevel'
         this.ctx.lineWidth = this.xDpr(1)
         this.ctx.strokeStyle = '#000'
+        // this.setContainerRadius()
+    }
+
+    // 设置线的样式
+    setLineStyle (lineStyle = {}) {
+        const {
+            cap = 'butt', // butt | round | square
+            join = 'bevel', // bevel | round | miter
+            offset = 0,
+            dash = [1, 0],
+            color = '#000',
+            width = 2
+        } = lineStyle
+
+        this.ctx.lineCap = cap
+        this.ctx.setLineDash(dash.map(n => this.xDpr(n)))
+        this.ctx.lineDashOffset = this.xDpr(offset)
+        this.ctx.lineJoin = join
+        this.ctx.lineWidth = this.xDpr(width)
+        this.ctx.strokeStyle = color
     }
 
     // 绘制矩形
     drawRect (opts) {
         return new Promise((resolve, reject) => {
-            const _opts = {
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-                color: '',
-                bgColor: '',
-                radius: 0,
-                ...opts
-            }
+            let {
+                x = 0,
+                y = 0,
+                width = 0,
+                height = 0,
+                // color = '',
+                bgColor = '',
+                radius = 0,
+                lineStyle
+                // blur = 0
+            } = opts
 
-            this.ctx.strokeStyle = _opts.color
-            this.ctx.fillStyle = _opts.bgColor
+            // 防止 radius 设置过大
+            radius = Math.min(radius, Math.min(width, height) / 2)
+
+            // this.ctx.strokeStyle = color
+            // 设置线段样式
+            this.setLineStyle(lineStyle)
+            // 设置填充色
+            this.ctx.fillStyle = bgColor
+
+            // if (blur) {
+            //     // stackblurCanvasRGB(
+            //     //     this.canvas,
+            //     //     this.xDpr(x),
+            //     //     this.xDpr(y),
+            //     //     this.xDpr(width),
+            //     //     this.xDpr(height),
+            //     //     blur
+            //     // )
+
+            //     // wx.canvasGetImageData({
+
+            //     // }, this.component)
+            // }
 
             this.drawRectPath({
-                x: _opts.x,
-                y: _opts.y,
-                width: _opts.width,
-                height: _opts.height,
-                radius: _opts.radius
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                radius: radius
             })
 
-            if (_opts.color) {
+            if (lineStyle.color) {
                 this.ctx.stroke()
             }
 
-            if (_opts.bgColor) {
+            if (bgColor) {
                 this.ctx.fill()
             }
 
@@ -215,17 +274,14 @@ class WxCanvas2d {
 
     // 绘制矩形路径
     drawRectPath (opts) {
-        const _opts = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            radius: 0,
-            ...opts
-        }
+        const {
+            x = 0,
+            y = 0,
+            width = 0,
+            height = 0,
+            radius = 0
+        } = opts
         // console.log(_opts)
-
-        const { x, y, width, height, radius } = _opts
 
         // 圆角起始/结束方向
         const angle = {
@@ -263,15 +319,15 @@ class WxCanvas2d {
     // 绘制图片
     drawImage (opts) {
         // console.log(opts)
-        const _opts = {
-            url: '',
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            mode: 'scaleToFill',
-            ...opts
-        }
+        const {
+            url = '',
+            x = 0,
+            y = 0,
+            width = 0,
+            height = 0,
+            mode = 'scaleToFill',
+            radius = 0
+        } = opts
 
         // scaleToFill: 缩放: 不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
         // aspectFit: 缩放: 保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。
@@ -287,7 +343,6 @@ class WxCanvas2d {
         // bottom left: 裁剪: 不缩放图片，只显示图片的左下边区域
 
         return new Promise((resolve, reject) => {
-            const { url, x, y, width, height, mode } = _opts
             const img = this.canvas.createImage()
 
             img.src = url
@@ -296,6 +351,8 @@ class WxCanvas2d {
                     src: url,
                     success: res => {
                         // console.log(res)
+                        // console.log(wx.getFileSystemManager)
+                        // console.log(wx.getFileSystemManager().readFileSync(res, 'base64'))
                         const imgWidth = res.width
                         const imgHeight = res.height
                         const aspectRatio = width / height
@@ -356,6 +413,12 @@ class WxCanvas2d {
                         }
                         // console.log(mode)
 
+                        if (radius) {
+                            this.ctx.save()
+                            this.drawRectPath({ x, y, width, height, radius })
+                            this.ctx.clip()
+                        }
+
                         this.ctx.drawImage(
                             img,
                             // ...(imgCut[mode] || imgCut.scaleToFill).map((n, i) => i >= 4 ? this.xDpr(n) : n)
@@ -365,6 +428,23 @@ class WxCanvas2d {
                             this.xDpr(width || res.width),
                             this.xDpr(height || res.height)
                         )
+
+                        // if (blur) {
+                        //     // console.log(this)
+                        //     canvasRGB(
+                        //         this.canvas,
+                        //         this.xDpr(x) || 0,
+                        //         this.xDpr(y) || 0,
+                        //         this.xDpr(width || res.width),
+                        //         this.xDpr(height || res.height),
+                        //         blur
+                        //     )
+                        // }
+
+                        if (radius) {
+                            this.ctx.restore()
+                        }
+
                         resolve()
                     },
                     fail: () => {
@@ -444,29 +524,16 @@ class WxCanvas2d {
     drawLine (opts) {
         // console.log(opts)
         return new Promise((resolve, reject) => {
-            const _opts = {
-                lineStyle: {
-                    cap: 'butt', // butt | round | square
-                    join: 'bevel', // bevel | round | miter
-                    offset: 0,
-                    dash: [1, 0],
-                    color: '#000',
-                    width: 1,
-                    ...opts.lineStyle
-                },
-                line: opts.line || []
-            }
+            const {
+                lineStyle,
+                line = []
+            } = opts
 
             // 设置线段样式
-            this.ctx.lineCap = _opts.lineStyle.cap
-            this.ctx.setLineDash(_opts.lineStyle.dash.map(n => this.xDpr(n)))
-            this.ctx.lineDashOffset = this.xDpr(_opts.lineStyle.offset)
-            this.ctx.lineJoin = _opts.lineStyle.join
-            this.ctx.lineWidth = this.xDpr(_opts.lineStyle.width)
-            this.ctx.strokeStyle = _opts.lineStyle.color
+            this.setLineStyle(lineStyle)
 
             // 绘制线段
-            _opts.line.forEach((n, i) => {
+            line.forEach((n, i) => {
                 if (!i) {
                     this.ctx.beginPath()
                     this.ctx.moveTo(...n.point.map(n => this.xDpr(n)))
@@ -476,6 +543,61 @@ class WxCanvas2d {
                 }
             })
 
+            resolve()
+        })
+    }
+
+    // 绘制模糊范围
+    drawBlur (opts) {
+        return new Promise((resolve, reject) => {
+            const {
+                x = 0,
+                y = 0,
+                width = 0,
+                height = 0,
+                blur = 0
+            } = opts
+
+            stackblurCanvasRGB(
+                this.canvas,
+                this.xDpr(x),
+                this.xDpr(y),
+                this.xDpr(width),
+                this.xDpr(height),
+                blur
+            )
+
+            resolve()
+        })
+    }
+
+    // 绘制弧形
+    drawArc (opts) {
+        return new Promise((resolve, reject) => {
+            const {
+                x = 0,
+                y = 0,
+                r = 0,
+                start = 0,
+                end = 0,
+                reverse = false,
+                lineStyle
+            } = opts
+
+            // 设置线段样式
+            this.setLineStyle(lineStyle)
+
+            // 绘制线段
+            this.ctx.beginPath()
+            this.ctx.arc(
+                this.xDpr(x),
+                this.xDpr(y),
+                this.xDpr(r),
+                start,
+                end,
+                reverse
+            )
+            this.ctx.stroke()
             resolve()
         })
     }
@@ -549,6 +671,19 @@ class WxCanvas2d {
             logout(...args)
         }
     }
+
+    // 增加新的绘制类型
+    // addSeries (type, handle) {
+    //     this.extendDrawMethods[type] = (...opts) => {
+    //         handle(this, ...opts)
+    //     }
+    // }
+}
+
+WxCanvas2d.extendDrawMethods = {}
+
+WxCanvas2d.addSeries = function (type, handle) {
+    WxCanvas2d.extendDrawMethods[type] = handle
 }
 
 // const debugLogout = function (...args) {
@@ -686,5 +821,7 @@ const logout = function (msg, type = 'info') {
         console.debug(`WxCanvas2d: ${msg}`)
     }
 }
+
+// console.log({ WxCanvas2d })
 
 export default WxCanvas2d
