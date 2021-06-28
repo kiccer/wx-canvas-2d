@@ -1,6 +1,6 @@
 {
     "name": "wx-canvas-2d",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。",
     "main": "plugin/wx-canvas-2d.min.js",
     "files": [
