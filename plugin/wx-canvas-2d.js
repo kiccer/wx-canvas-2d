@@ -2,7 +2,7 @@
  * @Author: kiccer<1072907338@qq.com>
  * @Date: 2020-09-17 14:54:09
  * @LastEditors: kiccer
- * @LastEditTime: 2020-11-18 22:41:55
+ * @LastEditTime: 2021-06-28 16:56:42
  * @FilePath: \wx-canvas-2d\plugin\wx-canvas-2d.js
  * @Description: 微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。
  */
@@ -61,7 +61,10 @@ class WxCanvas2d {
                 .fields({ node: true, size: true })
                 .exec(res => {
                     // console.log(res)
-                    if (!res[0]) return false
+                    if (!res[0]) {
+                        this.debugLogout(`${ERR_CODE[108]} (108)`, 'error')
+                        return false
+                    }
 
                     const canvas = res[0].node
                     const ctx = canvas.getContext('2d')
@@ -705,7 +708,8 @@ const ERR_CODE = {
     104: '用户拒绝授权',
     105: '用户前往授权页',
     106: '获取图片信息失败',
-    107: '加载图片失败'
+    107: '加载图片失败',
+    108: '找不到画布'
 }
 
 /**
