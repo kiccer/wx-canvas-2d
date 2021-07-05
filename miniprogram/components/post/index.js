@@ -1,16 +1,31 @@
 // components/post/index.js
 // import WxCanvas2d from 'plugin/wx-canvas-2d'
-const WxCanvas2d = requirePlugin('wx-canvas-2d').default
+// const WxCanvas2d = requirePlugin('wx-canvas-2d').default
 
-WxCanvas2d.addSeries('test', (cvs, opts) => {
-    return new Promise((resolve, reject) => {
-        // console.log(cvs, opts)
-        resolve()
-    })
-})
+// WxCanvas2d.addSeries('test', (cvs, opts) => {
+//     return new Promise((resolve, reject) => {
+//         // console.log(cvs, opts)
+//         resolve()
+//     })
+// })
+
+// const canvas = new WxCanvas2d()
+// console.log({ canvas })
+
+const {
+    WxCanvas2d,
+    Debugger,
+    SaveToAlbum,
+    Image,
+    Text,
+    Line
+} = requirePlugin('wx-canvas-2d')
+
+WxCanvas2d.use(Debugger)
+WxCanvas2d.use(SaveToAlbum)
 
 const canvas = new WxCanvas2d()
-// console.log({ canvas })
+console.log({ canvas })
 
 Component({
     /**
@@ -36,8 +51,8 @@ Component({
 
     lifetimes: {
         attached () {
-            // 在组件实例进入页面节点树时执行
-            canvas.debugger = true // open debugger
+            // // 在组件实例进入页面节点树时执行
+            // canvas.debugger = true // open debugger
 
             setTimeout(() => {
                 // 创建
@@ -65,7 +80,7 @@ Component({
      */
     methods: {
         onClose () {
-            canvas.clear()
+            // canvas.clear()
             this.triggerEvent('close')
         },
 
@@ -80,7 +95,7 @@ Component({
             canvas.draw({
                 series: [
                     {
-                        type: 'image', // 图片
+                        type: Image, // 图片
                         url: item.img,
                         x: 0,
                         y: 0,
@@ -97,7 +112,7 @@ Component({
                     //     blur: 40
                     // },
                     {
-                        type: 'text',
+                        type: Text,
                         text: item.name,
                         x: 30,
                         y: 620,
@@ -107,7 +122,7 @@ Component({
                         lineHeight: 42
                     },
                     {
-                        type: 'text',
+                        type: Text,
                         text: '￥',
                         x: 30,
                         y: 683,
@@ -117,7 +132,7 @@ Component({
                         lineHeight: 33
                     },
                     {
-                        type: 'text',
+                        type: Text,
                         text: item.price,
                         x: 49,
                         y: 672,
@@ -127,7 +142,7 @@ Component({
                         lineHeight: 48
                     },
                     {
-                        type: 'text',
+                        type: Text,
                         text: item.desc,
                         x: 30,
                         y: 787,
@@ -138,7 +153,7 @@ Component({
                         ellipsis: 2
                     },
                     {
-                        type: 'line',
+                        type: Line,
                         lineStyle: {
                             dash: [7, 3],
                             color: '#E9E9E9',
@@ -154,7 +169,7 @@ Component({
                         ]
                     },
                     {
-                        type: 'image',
+                        type: Image,
                         url: '../../img/qrcode.png',
                         x: 450,
                         y: 760,
@@ -194,7 +209,7 @@ Component({
 
         onBeforeLeave () {
             // 清空
-            canvas.clear()
+            // canvas.clear()
         },
 
         saveImg () {

@@ -60,5 +60,8 @@
                 "workbench.action.files.saveAll"
             ]
         }
+    ],
+    "cSpell.words": [
+        "stackblur"
     ]
 }
