@@ -1,11 +1,4 @@
-
-/**
- * 小程序获取权限
- *
- * @param   {String}  name  权限名称
- *
- * @return  {Promise}        Promise
- */
+// 小程序获取权限
 const getAuth = function (name) {
     return new Promise((resolve, reject) => {
         wx.getSetting({
@@ -30,13 +23,7 @@ const getAuth = function (name) {
     })
 }
 
-/**
- * 保存图片到相册
- *
- * @param   {String}  tempFilePath  临时文件路径
- *
- * @return  {Promise}                Promise
- */
+// 保存图片到相册
 const saveImageToPhotosAlbum = function (tempFilePath) {
     return new Promise((resolve, reject) => {
         wx.saveImageToPhotosAlbum({
