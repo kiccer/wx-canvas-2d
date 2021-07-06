@@ -6,6 +6,7 @@ export const Arc = require('./series/Arc.js')
 export const Blur = require('./series/Blur.js')
 export const Image = require('./series/Image.js')
 export const Line = require('./series/Line.js')
+export const Qrcode = require('./series/Qrcode.js')
 export const Rect = require('./series/Rect.js')
 export const Text = require('./series/Text.js')
 

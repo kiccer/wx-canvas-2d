@@ -18,7 +18,8 @@ const {
     SaveToAlbum,
     Image,
     Text,
-    Line
+    Line,
+    Qrcode
 } = requirePlugin('wx-canvas-2d')
 
 WxCanvas2d.use(Debugger)
@@ -171,6 +172,14 @@ Component({
                     {
                         type: Image,
                         url: '../../img/qrcode.png',
+                        x: 450,
+                        y: 760,
+                        width: 120,
+                        height: 120
+                    },
+                    {
+                        type: Qrcode,
+                        url: 'http://www.baidu.com/',
                         x: 450,
                         y: 760,
                         width: 120,
