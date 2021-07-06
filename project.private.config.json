@@ -1,0 +1,23 @@
+{
+    "condition": {
+        "plugin": {
+            "list": [
+                {
+                    "name": "pages/npm-test/index",
+                    "pathName": "pages/npm-test/index",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": []
+        }
+    }
+}

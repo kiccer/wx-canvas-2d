@@ -12,20 +12,20 @@
 // const canvas = new WxCanvas2d()
 // console.log({ canvas })
 
-const {
+import {
     WxCanvas2d,
     Debugger,
     SaveToAlbum,
     Image,
     Text,
     Line
-} = requirePlugin('wx-canvas-2d')
+} from 'wx-canvas-2d'
 
 WxCanvas2d.use(Debugger)
 WxCanvas2d.use(SaveToAlbum)
 
 const canvas = new WxCanvas2d()
-// console.log({ canvas })
+console.log({ canvas })
 
 Component({
     /**
@@ -57,7 +57,7 @@ Component({
             setTimeout(() => {
                 // 创建
                 canvas.create({
-                    query: '.poster-canvas', // 必传，canvas元素的查询条件
+                    query: '.npm-poster-canvas', // 必传，canvas元素的查询条件
                     rootWidth: 750, // 参考设备宽度 (即开发时UI设计稿的宽度，默认375，可改为750)
                     bgColor: '#fff', // 背景色，默认透明
                     component: this, // 自定义组件内需要传 this

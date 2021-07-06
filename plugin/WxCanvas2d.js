@@ -241,4 +241,4 @@ WxCanvas2d.use = function (util = {}) {
     }
 }
 
-export default WxCanvas2d
+module.exports = WxCanvas2d

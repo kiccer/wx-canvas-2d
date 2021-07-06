@@ -2,7 +2,7 @@ import {
     canvasRGB as stackblurCanvasRGB
 } from '../modules/stackblur-es.min.js'
 
-export default {
+module.exports = {
     name: 'blur',
 
     handler (config = {}) {

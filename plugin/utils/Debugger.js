@@ -1,6 +1,6 @@
 const SYS_INFO = wx.getSystemInfoSync()
 
-export default {
+module.exports = {
     name: 'debugLogout',
 
     handler (msg, type = 'info') {

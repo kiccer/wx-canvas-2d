@@ -1,6 +1,7 @@
 {
     "pages": [
-        "pages/index/index"
+        "pages/index/index",
+        "pages/npm-test/index"
     ],
     "plugins": {
         "wx-canvas-2d": {

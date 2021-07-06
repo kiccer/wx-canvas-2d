@@ -51,7 +51,7 @@ const saveImageToPhotosAlbum = function (tempFilePath) {
     })
 }
 
-export default {
+module.exports = {
     name: 'save',
 
     handler (opts) {

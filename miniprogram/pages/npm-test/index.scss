@@ -1,0 +1,18 @@
+.bodyer {
+    padding: 30rpx;
+
+    .card-wrapper {
+        background-color: #E5E5E5;
+        border-radius: 16rpx;
+        overflow: hidden;
+
+        & + .card-wrapper {
+            margin-top: 30rpx;
+        }
+
+        .btn-show-post {
+            height: auto !important;
+            padding: 2rpx 6rpx !important;
+        }
+    }
+}

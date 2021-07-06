@@ -1,0 +1,34 @@
+<view class="bodyer">
+    <view
+        class="card-wrapper"
+        wx:for="{{ goods }}"
+        wx:key="id"
+    >
+        <van-card
+            thumb-mode="aspectFill"
+            desc-class="ellipsis-2"
+            title="{{ item.name }}"
+            thumb="{{ item.img }}"
+            price="{{ item.price }}"
+            desc="{{ item.desc }}"
+        >
+            <view slot="footer">
+                <van-button
+                    plain
+                    size="mini"
+                    type="info"
+                    custom-class="btn-show-post"
+                    data-item="{{ item }}"
+                    bind:click="showPost"
+                >生成海报图</van-button>
+            </view>
+        </van-card>
+    </view>
+</view>
+
+<!-- 海报图弹窗组件 -->
+<post
+    show="{{ toggle.post }}"
+    item="{{ postItem }}"
+    bind:close="closePost"
+/>
