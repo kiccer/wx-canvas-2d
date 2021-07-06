@@ -1,17 +1,3 @@
-/*
- * @Author: kiccer<1072907338@qq.com>
- * @Date: 2020-09-17 14:54:09
- * @LastEditors: kiccer
- * @LastEditTime: 2021-07-05 17:56:29
- * @FilePath: \wx-canvas-2d\plugin\WxCanvas2d.js
- * @Description: 微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。
- */
-
-// import {
-//     canvasRGB as stackblurCanvasRGB
-// } from 'stackblur-canvas'
-// console.log({ stackblurCanvasRGB })
-
 const SYS_INFO = wx.getSystemInfoSync()
 
 class WxCanvas2d {
@@ -242,9 +228,11 @@ class WxCanvas2d {
         this.ctx.strokeStyle = color
     }
 
+    // 输出 debug 信息
     debugLogout () {}
 }
 
+// 使用插件
 WxCanvas2d.use = function (util = {}) {
     if (!util.name || !util.handler) return
 
