@@ -179,7 +179,7 @@ Component({
                     },
                     {
                         type: Qrcode,
-                        url: 'http://www.baidu.com/',
+                        url: 'https://github.com/kiccer/wx-canvas-2d',
                         x: 450,
                         y: 760,
                         width: 120,
