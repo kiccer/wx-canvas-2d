@@ -104,7 +104,7 @@ Component({
                         mode: 'aspectFill'
                     },
                     // {
-                    //     type: 'blur',
+                    //     type: Blur,
                     //     x: 0,
                     //     y: 0,
                     //     width: 600,
@@ -177,7 +177,7 @@ Component({
                         height: 120
                     }
                     // {
-                    //     type: 'arc',
+                    //     type: Arc,
                     //     x: 300,
                     //     y: 300,
                     //     r: 100,
@@ -189,7 +189,7 @@ Component({
                     //     }
                     // }
                     // {
-                    //     type: 'image',
+                    //     type: Image,
                     //     url: '../../img/avatar.png',
                     //     x: 200,
                     //     y: 200,
@@ -214,7 +214,7 @@ Component({
 
         saveImg () {
             // 保存图片到相册
-            canvas.saveToAlbum({
+            canvas.save({
                 destWidth: 600,
                 destHeight: 900
             }).then(res => {

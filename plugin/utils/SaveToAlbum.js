@@ -52,7 +52,7 @@ const saveImageToPhotosAlbum = function (tempFilePath) {
 }
 
 export default {
-    name: 'saveToAlbum',
+    name: 'save',
 
     handler (opts) {
         return new Promise((resolve, reject) => {
