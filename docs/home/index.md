@@ -1,3 +1,5 @@
+# 简介
+
 <div align="center">
     <h1>wx-canvas-2d</h1>
     <p>微信小程序 canvas-2d 绘图工具，支持按需加载，支持内容配置，支持功能扩展。</p>
@@ -12,13 +14,6 @@
 </div>
 <br />
 
-<!-- ![预览图](./img/demo/1.png) -->
 <div align="center">
-    <img src="./miniprogram/img/demo/1.png" width="300" />
+    <img src="../../miniprogram/img/demo/1.png" width="300" />
 </div>
-
-### USE
-请查看[wx-canvas-2d - 2.0 使用文档](./doc/index.html)
-
-### ISSUES
-有疑问请到[issues](https://github.com/kiccer/wx-canvas-2d/issues)留言
