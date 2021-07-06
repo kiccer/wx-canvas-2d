@@ -2,9 +2,13 @@
     "name": "wx-canvas-2d",
     "version": "2.0.0-beta.1",
     "description": "微信小程序 canvas-2d 绘图工具，轻量、便捷、容易维护。",
-    "main": "plugin/wx-canvas-2d.min.js",
+    "main": "plugin/index.js",
     "files": [
-        "plugin/wx-canvas-2d.min.js"
+        "plugin/modules/",
+        "plugin/series/",
+        "plugin/utils/",
+        "plugin/index.js",
+        "plugin/WxCanvas2d.js"
     ],
     "dependencies": {
         "stackblur-canvas": "^2.4.0"
