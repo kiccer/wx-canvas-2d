@@ -1,7 +1,7 @@
 module.exports = {
     title: 'wx-canvas-2d - 2.0 使用文档',
     description: '微信小程序 canvas-2d 绘图工具，支持按需加载，支持内容配置，支持功能扩展，适配各种机型，超轻量，超易用，无需学习，直接上手。',
-    base: '/docs/',
+    base: '/wx-canvas-2d/',
     dest: './docs/',
     markdown: {
         lineNumbers: true // 代码行号
