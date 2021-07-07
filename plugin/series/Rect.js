@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'rect',
+    name: 'Rect',
 
     handler (config = {}) {
         return new Promise((resolve, reject) => {

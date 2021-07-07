@@ -5,15 +5,61 @@ module.exports = {
     markdown: {
         lineNumbers: true // 代码行号
     },
+    // plugins: [
+    //     'autobar'
+    // ],
     themeConfig: {
-        // displayAllHeaders: true,
-        sidebar: {
-            '/home/' : {
+        nav: [
+            { text: 'GitHub', link: 'https://github.com/kiccer/wx-canvas-2d' },
+            { text: 'Issues', link: 'https://github.com/kiccer/wx-canvas-2d/issues' },
+            { text: 'v1.x文档', link: 'https://www.kancloud.cn/kiccer/wx-canvas-2d/content' },
+        ],
+        sidebar: [
+            {
                 title: '指南',
+                collapsable: false,
                 children: [
-                    ['index', '简介']
+                    ['', '简介'],
+                    ['/home/Install', '安装'],
+                    ['/home/Start', '快速开始'],
                 ]
-            }
-        }
+            },
+            {
+                title: 'Series 列表',
+                collapsable: false,
+                children: [
+                    ['/series/Arc', 'Arc - 弧线'],
+                    ['/series/Blur', 'Blur - 高斯模糊'],
+                    ['/series/Image', 'Image - 图片'],
+                    ['/series/Line', 'Line - 线段'],
+                    ['/series/Qrcode', 'Qrcode - 二维码'],
+                    ['/series/Rect', 'Rect - 矩形'],
+                    ['/series/Text', 'Text - 文本'],
+                ]
+            },
+            {
+                title: '通用对象',
+                collapsable: false,
+                children: [
+                    ['/common/lineStyle', 'lineStyle - 线段样式'],
+                ]
+            },
+            {
+                title: '扩展插件',
+                collapsable: false,
+                children: [
+                    ['/utils/SaveToAlbum', 'SaveToAlbum - 保存到相册'],
+                    ['/utils/Debugger', 'Debugger - 调试器'],
+                ]
+            },
+            {
+                title: '其他',
+                collapsable: false,
+                children: [
+                    ['/other/Extend', 'Extend - 扩展开发'],
+                ]
+            },
+        ],
+        sidebarDepth: 2,
     }
 }

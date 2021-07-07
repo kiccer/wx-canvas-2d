@@ -1,13 +1,16 @@
-# text
-*****
-
-### 示例
+## 示例
 ![](../images/screenshot_1605709494648.png)
-```
+
+## 代码
+```js
+import {
+    Text
+} from 'wx-canvas-2d'
+
 canvas.draw({
     series: [
         {
-            type: 'text',
+            type: Text,
             text: Array(10).fill('Hello World！').join(''),
             x: 40,
             y: 40,
@@ -25,7 +28,7 @@ canvas.draw({
 })
 ```
 
-### 属性
+## 属性
 | 属性 | 描述 | 是否必填 | 类型 | 默认值|
 | --- | --- | --- | --- | --- |
 | type | series 系列类型标识 | 是 | String | - |

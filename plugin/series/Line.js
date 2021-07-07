@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'line',
+    name: 'Line',
 
     handler (config = {}) {
         return new Promise((resolve, reject) => {

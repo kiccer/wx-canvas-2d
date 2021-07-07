@@ -19,6 +19,7 @@ import {
     Image,
     Text,
     Line
+    // Qrcode
 } from 'wx-canvas-2d'
 
 WxCanvas2d.use(Debugger)
@@ -94,6 +95,13 @@ Component({
             // 绘制
             canvas.draw({
                 series: [
+                    // {
+                    //     type: Qrcode,
+                    //     text: 'https://github.com/kiccer/wx-canvas-2d',
+                    //     x: 30,
+                    //     y: 30,
+                    //     size: 540
+                    // }
                     {
                         type: Image, // 图片
                         url: item.img,

@@ -1,13 +1,17 @@
-# blur
-*****
-
-### 示例
+## 示例
 ![](../images/screenshot_1605710246577.png)
-```
+
+## 代码
+```js
+import {
+    Image,
+    Blur
+} from 'wx-canvas-2d'
+
 canvas.draw({
     series: [
         {
-            type: 'image',
+            type: Image,
             url: './image.jpg',
             x: 0,
             y: 0,
@@ -18,7 +22,7 @@ canvas.draw({
             zIndex: 0
         },
         {
-            type: 'blur',
+            type: Blur,
             x: 0,
             y: 0,
             width: 600,
@@ -30,7 +34,7 @@ canvas.draw({
 })
 ```
 
-### 属性
+## 属性
 | 属性 | 描述 | 是否必填 | 类型 | 默认值|
 | --- | --- | --- | --- | --- |
 | type | series 系列类型标识 | 是 | String | - |

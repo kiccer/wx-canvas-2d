@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'image',
+    name: 'Image',
 
     handler (config = {}) {
         return new Promise((resolve, reject) => {

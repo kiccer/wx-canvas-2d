@@ -12,7 +12,6 @@ class WxCanvas2d {
         this.rootWidth = null // UI设计稿宽度
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
         this.startTime = Date.now()
-        this.debugger = false // 调试模式
     }
 
     // 创建画布

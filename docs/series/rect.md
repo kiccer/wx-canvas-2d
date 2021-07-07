@@ -1,13 +1,16 @@
-# rect
-*****
-
-### 示例
+## 示例
 ![](../images/screenshot_1605710094252.png)
-```
+
+## 代码
+```js
+import {
+    Rect
+} from 'wx-canvas-2d'
+
 canvas.draw({
     series: [
         {
-            type: 'rect',
+            type: Rect,
             x: 40,
             y: 40,
             width: 520,
@@ -25,7 +28,7 @@ canvas.draw({
 })
 ```
 
-### 属性
+## 属性
 | 属性 | 描述 | 是否必填 | 类型 | 默认值|
 | --- | --- | --- | --- | --- |
 | type | series 系列类型标识 | 是 | String | - |
@@ -35,5 +38,5 @@ canvas.draw({
 | height| 图片高度 | 否 | Number | 0 |
 | bgColor | 背景色（填充色） | 否 | String | - |
 | radius | 矩形圆角 | 否 | Number | 0 |
-| lineStyle | 边框线样式 | 否 | [lineStyle](../通用对象/lineStyle.md) | - |
+| lineStyle | 边框线样式 | 否 | [lineStyle](../common/lineStyle.md) | - |
 | zIndex | 图层顺序，值越大，图层越高 | 否 | Number | 0 |

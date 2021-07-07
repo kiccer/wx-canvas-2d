@@ -1,28 +1,27 @@
 import { api } from '../modules/qrcode.min.js'
 
 module.exports = {
-    name: 'qrcode',
+    name: 'Qrcode',
 
     handler (config = {}) {
         const {
-            url = '',
+            text = '',
             x = 0,
             y = 0,
-            width = 0,
-            height = 0,
+            size = 0,
             color = '#000',
             bgColor = '#fff',
-            ecc = null
+            ecc = 2
         } = config
 
         return new Promise((resolve, reject) => {
             api.draw(
-                url,
+                text,
                 this.ctx,
                 this.xDpr(x),
                 this.xDpr(y),
-                this.xDpr(width),
-                this.xDpr(height),
+                this.xDpr(size), // width
+                this.xDpr(size), // height
                 bgColor,
                 color,
                 this.component,

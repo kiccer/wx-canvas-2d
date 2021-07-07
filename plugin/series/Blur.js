@@ -3,7 +3,7 @@ import {
 } from '../modules/stackblur-es.min.js'
 
 module.exports = {
-    name: 'blur',
+    name: 'Blur',
 
     handler (config = {}) {
         return new Promise((resolve, reject) => {

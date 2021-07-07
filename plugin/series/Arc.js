@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'arc',
+    name: 'Arc',
 
     handler (config = {}) {
         return new Promise((resolve, reject) => {

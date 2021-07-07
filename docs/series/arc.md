@@ -1,13 +1,16 @@
-# arc
-*****
-
-### 示例
+## 效果图
 ![](../images/screenshot_1605710784160.png)
-```
+
+## 代码
+```js
+import {
+    Arc
+} from 'wx-canvas-2d'
+
 canvas.draw({
     series: [
         {
-            type: 'arc',
+            type: Arc,
             x: 300,
             y: 450,
             r: 200,
@@ -22,7 +25,7 @@ canvas.draw({
             zIndex: 0
         },
         {
-            type: 'arc',
+            type: Arc,
             x: 300,
             y: 450,
             r: 100,
@@ -40,7 +43,7 @@ canvas.draw({
 })
 ```
 
-### 属性
+## 属性
 | 属性 | 描述 | 是否必填 | 类型 | 默认值|
 | --- | --- | --- | --- | --- |
 | type | series 系列类型标识 | 是 | String | - |
@@ -50,5 +53,5 @@ canvas.draw({
 | start | 弧线起始角度 | 否 | Number | 0 |
 | end | 弧线终止角度 | 否 | Number | 0 |
 | reverse | 是否反向绘制弧线 | 否 | Boolean | false |
-| lineStyle | 边框线样式 | 否 | [lineStyle](../通用对象/lineStyle.md) | - |
+| lineStyle | 边框线样式 | 否 | [lineStyle](../common/lineStyle.md) | - |
 | zIndex | 图层顺序，值越大，图层越高 | 否 | Number | 0 |

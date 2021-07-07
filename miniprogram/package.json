@@ -25,6 +25,6 @@
   "dependencies": {
     "@vant/weapp": "^1.5.2",
     "numeral": "^2.0.6",
-    "wx-canvas-2d": "^2.0.0-beta.3"
+    "wx-canvas-2d": "^2.0.0-beta.6"
   }
 }
