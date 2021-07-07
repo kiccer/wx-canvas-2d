@@ -18,7 +18,7 @@
 </div>
 
 ### USE
-请查看[wx-canvas-2d - 2.0 使用文档](./doc/index.html)
+请查看[wx-canvas-2d - 2.0 使用文档](https://kiccer.github.io/wx-canvas-2d/)
 
 ### ISSUES
 有疑问请到[issues](https://github.com/kiccer/wx-canvas-2d/issues)留言
