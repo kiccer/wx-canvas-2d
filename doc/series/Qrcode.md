@@ -11,7 +11,7 @@ canvas.draw({
     series: [
         {
             type: Qrcode,
-            ur: 'https://github.com/kiccer/wx-canvas-2d',
+            text: 'https://github.com/kiccer/wx-canvas-2d',
             x: 30,
             y: 30,
             size: 540
