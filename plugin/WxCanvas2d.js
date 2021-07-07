@@ -151,7 +151,7 @@ class WxCanvas2d {
 
     // 清空 (初始化) 样式
     styleClear () {
-        this.ctx.setTextAlign = 'left'
+        this.ctx.textAlign = 'left'
         this.ctx.textBaseline = 'top'
         this.ctx.fillStyle = '#000'
         this.ctx.font = `${this.xDpr(12 * this.rootWidth / SYS_INFO.screenWidth)}px ${this.fontFamily}`

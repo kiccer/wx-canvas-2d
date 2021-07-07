@@ -23,7 +23,7 @@ module.exports = {
             let index = 0 // 行数下标
             let splitStr = [] // 拆分后的文本数组
 
-            this.ctx.setTextAlign = _opts.align
+            this.ctx.textAlign = _opts.align
             this.ctx.textBaseline = _opts.baseline
             this.ctx.fillStyle = _opts.color
             this.ctx.font = `${_opts.fontWeight} ${this.xDpr(_opts.fontSize)}px ${this.fontFamily}`
@@ -47,11 +47,18 @@ module.exports = {
 
             // 循环绘制文本
             splitStr.forEach((n, i) => {
+                const x = {
+                    left: _opts.x,
+                    start: _opts.x,
+                    right: _opts.x + _opts.width,
+                    end: _opts.x + _opts.width,
+                    center: _opts.x + _opts.width / 2
+                }[_opts.align] || _opts.x
                 const y = _opts.y + _opts.lineHeight * i + (_opts.lineHeight - _opts.fontSize) / 2
 
                 this.ctx.fillText(
                     n,
-                    this.xDpr(_opts.x),
+                    this.xDpr(x),
                     this.xDpr(y)
                 )
             })
