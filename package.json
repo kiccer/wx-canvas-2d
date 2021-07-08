@@ -1,15 +1,11 @@
 {
     "name": "wx-canvas-2d",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "微信小程序 canvas-2d 绘图工具，支持按需加载，支持内容配置，支持功能扩展，适配各种机型，超轻量，超易用，无需学习，直接上手。",
-    "main": "plugin/index.js",
-    "miniprogram": "plugin",
+    "main": "miniprogram_dist",
+    "miniprogram": "miniprogram_dist",
     "files": [
-        "plugin/modules/",
-        "plugin/series/",
-        "plugin/utils/",
-        "plugin/index.js",
-        "plugin/WxCanvas2d.js"
+        "miniprogram_dist"
     ],
     "devDependencies": {
         "babel-core": "^6.26.3",
@@ -18,14 +14,19 @@
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-env": "^1.7.0",
         "babel-runtime": "^6.26.0",
+        "delete": "^1.1.0",
         "eslint": "^7.9.0",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-uglify": "^3.0.2",
         "standard": "^14.3.4",
         "vuepress": "^1.8.2",
         "webpack": "^4.44.2",
         "webpack-cli": "^4.1.0"
     },
     "scripts": {
-        "dev": "webpack --config webpack.config.js",
+        "gulp-dev": "gulp",
+        "dev": "exit && webpack --config webpack.config.js",
         "lint-fix": "eslint --fix --ext .js pages components res app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "docs:dev": "vuepress dev doc",
