@@ -1,4 +1,4 @@
-## 示例
+## 效果图
 ![](../images/screenshot_qrcode_1.png)
 
 ## 代码
