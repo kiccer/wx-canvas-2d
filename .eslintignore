@@ -1,3 +1,4 @@
 **/node_modules/
 **/miniprogram_npm/
 plugin/modules/
+**/*.min.js

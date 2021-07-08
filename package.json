@@ -10,9 +10,6 @@
         "plugin/index.js",
         "plugin/WxCanvas2d.js"
     ],
-    "dependencies": {
-        "stackblur-canvas": "^2.4.0"
-    },
     "devDependencies": {
         "babel-core": "^6.26.3",
         "babel-eslint": "^10.1.0",
