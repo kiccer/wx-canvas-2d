@@ -7,6 +7,7 @@ class WxCanvas2d {
         this.radius = null // canvas 背景色
         this.component = null // 如果是在自定义组件中，需要获取到自定义组件的内部 this 变量 (即，传入 this)
         this.canvas = null // canvas 节点
+        this.canvasInfo = null //  wx.createSelectorQuery 返回的 res
         this.ctx = null // canvas 上下文
         this.dpr = null // 像素比
         this.rootWidth = null // UI设计稿宽度
@@ -32,7 +33,7 @@ class WxCanvas2d {
             this.radius = options.radius
 
             const query = this.component
-                ? wx.createSelectorQuery().in(this.component)
+                ? this.component.createSelectorQuery()
                 : wx.createSelectorQuery()
 
             query.select(this.query)
@@ -49,6 +50,7 @@ class WxCanvas2d {
                     const dpr = SYS_INFO.pixelRatio
 
                     this.canvas = canvas
+                    this.canvasInfo = res
                     this.ctx = ctx
                     this.dpr = dpr
                     this.rootWidth = options.rootWidth
@@ -97,7 +99,7 @@ class WxCanvas2d {
             const { series } = opts
 
             const query = this.component
-                ? wx.createSelectorQuery().in(this.component)
+                ? this.component.createSelectorQuery()
                 : wx.createSelectorQuery()
 
             query.select(this.query)
@@ -120,11 +122,11 @@ class WxCanvas2d {
 
                     // 按顺序绘制图层方法
                     const next = (index = 0) => {
+                        this.ctx.save()
                         if (index < _series.length) {
                             const options = _series[index]
                             if (options.type && options.type.name && typeof options.type.handler === 'function') {
                                 // this.debugLogout(`正在绘制 [${options.type.name}] (${index + 1}/${_series.length})`)
-                                this.styleClear() // 绘制新图层前，先还原一次样式设置
                                 options.type.handler.call(this, options).then(() => {
                                     this.debugLogout(`绘制成功 [${options.type.name}] (${index + 1}/${_series.length})`)
                                     next(++index)
@@ -141,27 +143,13 @@ class WxCanvas2d {
                             this.debugLogout(`绘制完成 (${Date.now() - this.startTime}ms)`)
                             resolve() // 所有图层绘制完毕
                         }
+                        this.ctx.restore()
                     }
 
                     this.debugLogout('开始绘制')
                     next() // 开始按顺序绘制图层
                 })
         })
-    }
-
-    // 清空 (初始化) 样式
-    styleClear () {
-        this.ctx.textAlign = 'left'
-        this.ctx.textBaseline = 'top'
-        this.ctx.fillStyle = '#000'
-        this.ctx.font = `${this.xDpr(12 * this.rootWidth / SYS_INFO.screenWidth)}px ${this.fontFamily}`
-        this.ctx.lineCap = 'butt'
-        this.ctx.setLineDash([1, 0])
-        this.ctx.lineDashOffset = 0
-        this.ctx.lineJoin = 'bevel'
-        this.ctx.lineWidth = this.xDpr(1)
-        this.ctx.strokeStyle = '#000'
-        // this.setContainerRadius()
     }
 
     // 绘制矩形路径
