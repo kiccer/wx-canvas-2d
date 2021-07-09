@@ -21,7 +21,7 @@ function buildIndex (cb) {
 
 // 搬运第三方插件
 function buildModules (cb) {
-    return gulp.src('./plugin/modules/*.js')
+    return gulp.src('./plugin/modules/*.min.js')
         .pipe(gulp.dest(buildPath + 'modules/'))
 }
 
