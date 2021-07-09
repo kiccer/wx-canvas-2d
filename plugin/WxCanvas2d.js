@@ -1,4 +1,5 @@
 const SYS_INFO = wx.getSystemInfoSync()
+console.log({ SYS_INFO })
 
 class WxCanvas2d {
     constructor () {
@@ -13,6 +14,13 @@ class WxCanvas2d {
         this.rootWidth = null // UI设计稿宽度
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
         this.startTime = Date.now()
+    }
+
+    get canvasSize () {
+        return {
+            width: this.canvas.width / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
+            height: this.canvas.height / SYS_INFO.screenWidth / this.dpr * this.rootWidth
+        }
     }
 
     // 创建画布
@@ -66,23 +74,35 @@ class WxCanvas2d {
 
     // 清空画布
     clear () {
-        this.ctx.clearRect(0, 0, this.xDpr(this.canvas.width), this.xDpr(this.canvas.height))
+        // 画布范围
+        const scope = [
+            0,
+            0,
+            this.xDpr(this.canvasSize.width),
+            this.xDpr(this.canvasSize.height)
+        ]
 
+        // 清空画布
+        this.ctx.clearRect(...scope)
+
+        // 设置圆角路径并剪切
         if (this.radius) {
             this.drawRectPath({
                 x: 0,
                 y: 0,
-                width: this.canvas.width / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
-                height: this.canvas.height / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
+                width: this.canvasSize.width,
+                height: this.canvasSize.height,
                 radius: this.radius
             })
 
+            // 剪切路径，上下文没有保存和还原设置，所以后续所有绘制都会被限制在此剪切范围内
             this.ctx.clip()
         }
 
+        // 绘制背景色
         if (this.bgColor) {
             this.ctx.fillStyle = this.bgColor
-            this.ctx.fillRect(0, 0, this.xDpr(this.canvas.width), this.xDpr(this.canvas.height))
+            this.ctx.fillRect(...scope)
         }
     }
 

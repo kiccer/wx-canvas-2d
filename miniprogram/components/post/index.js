@@ -26,7 +26,7 @@ WxCanvas2d.use(Debugger)
 WxCanvas2d.use(SaveToAlbum)
 
 const canvas = new WxCanvas2d()
-// console.log({ canvas })
+console.log({ canvas })
 
 Component({
     /**
