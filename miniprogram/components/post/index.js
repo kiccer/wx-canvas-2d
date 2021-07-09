@@ -68,6 +68,16 @@ Component({
                 }).catch(err => {
                     console.log('画布创建失败: ', err)
                 })
+
+                // // 监听绘制前
+                // canvas.on('beforeDraw', e => {
+                //     console.log(e)
+                // })
+
+                // // 监听绘制后
+                // canvas.on('afterDraw', e => {
+                //     console.log(e)
+                // })
             }, 500)
         },
 

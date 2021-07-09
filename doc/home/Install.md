@@ -1,3 +1,5 @@
+# Install - 安装
+
 ```shell
 npm i -S wx-canvas-2d
 ```

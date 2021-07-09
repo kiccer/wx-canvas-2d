@@ -1,3 +1,5 @@
+# Start - 快速开始
+
 第一步，在 `wxml` 文件中写入 `canvas` 元素
 
 ```html

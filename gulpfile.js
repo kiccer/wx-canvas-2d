@@ -6,41 +6,42 @@ const babel = require('gulp-babel')
 // const logger = require('gulplog')
 
 // 打包后的目录
-// const buildPath = './plugin/build/'
-const buildPath = './miniprogram_dist/'
+const buildFrom = './plugin/'
+// const buildTo = './plugin/build/'
+const buildTo = './miniprogram_dist/'
 const buildConfig = [
     {
         name: 'index',
-        from: './plugin/index.js',
-        to: buildPath,
+        from: buildFrom + 'index.js',
+        to: buildTo,
         watch: true
     },
     {
         name: 'modules',
-        from: './plugin/modules/*.min.js',
-        to: buildPath + 'modules/',
+        from: buildFrom + 'modules/*.min.js',
+        to: buildTo + 'modules/',
         watch: true
     },
     {
         name: 'WxCanvas2d',
-        from: './plugin/WxCanvas2d.js',
-        to: buildPath,
+        from: buildFrom + 'WxCanvas2d.js',
+        to: buildTo,
         babel: true,
         uglify: true,
         watch: true
     },
     {
         name: 'series',
-        from: './plugin/series/*.js',
-        to: buildPath + 'series/',
+        from: buildFrom + 'series/*.js',
+        to: buildTo + 'series/',
         babel: true,
         uglify: true,
         watch: true
     },
     {
         name: 'utils',
-        from: './plugin/utils/*.js',
-        to: buildPath + 'utils/',
+        from: buildFrom + 'utils/*.js',
+        to: buildTo + 'utils/',
         babel: true,
         uglify: true,
         watch: true
@@ -48,7 +49,7 @@ const buildConfig = [
 ]
 
 // 清空之前的打包文件
-function clear (paths = [buildPath]) {
+function clear (paths = [buildTo]) {
     return function clear (cb) {
         del(paths, cb)
     }
@@ -77,10 +78,14 @@ function build (cb) {
 // 监听
 buildConfig.forEach(config => {
     if (config.watch) {
+        const paths = config.from.split('/')
+        const last = paths[paths.length - 1]
+        const fileScope = '/' + (paths[paths.length - 2] === '**' ? '**/' + last : last)
+
         gulp.watch([
             config.from
         ], gulp.series(
-            clear([config.to]),
+            clear([buildTo + fileScope]),
             buildItem(config)
         ))
     }

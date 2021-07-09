@@ -57,6 +57,7 @@ module.exports = {
                 title: '其他',
                 collapsable: false,
                 children: [
+                    ['/other/EventListener', 'EventListener - 事件监听'],
                     ['/other/Extend', 'Extend - 扩展开发'],
                 ]
             },

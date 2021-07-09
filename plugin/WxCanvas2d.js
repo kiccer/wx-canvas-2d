@@ -1,5 +1,5 @@
 const SYS_INFO = wx.getSystemInfoSync()
-console.log({ SYS_INFO })
+// console.log({ SYS_INFO })
 
 class WxCanvas2d {
     constructor () {
@@ -13,9 +13,11 @@ class WxCanvas2d {
         this.dpr = null // 像素比
         this.rootWidth = null // UI设计稿宽度
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
-        this.startTime = Date.now()
+        this.startTime = null // 绘图开始时间戳
+        this.$events = {} // 监听回调
     }
 
+    // canvas 画布大小 (单位: rpx)
     get canvasSize () {
         return {
             width: this.canvas.width / SYS_INFO.screenWidth / this.dpr * this.rootWidth,
@@ -142,27 +144,42 @@ class WxCanvas2d {
 
                     // 按顺序绘制图层方法
                     const next = (index = 0) => {
+                        const nextStart = Date.now()
+                        const config = _series[index]
+
                         this.ctx.save()
+
                         if (index < _series.length) {
-                            const options = _series[index]
-                            if (options.type && options.type.name && typeof options.type.handler === 'function') {
-                                // this.debugLogout(`正在绘制 [${options.type.name}] (${index + 1}/${_series.length})`)
-                                options.type.handler.call(this, options).then(() => {
-                                    this.debugLogout(`绘制成功 [${options.type.name}] (${index + 1}/${_series.length})`)
+                            const {
+                                type: {
+                                    name,
+                                    handler
+                                } = {}
+                            } = config
+
+                            if (name && typeof handler === 'function') {
+                                // 绘制前调用 beforeDraw 回调
+                                this.emit('beforeDraw', { index, config })
+
+                                handler.call(this, config).then(() => {
+                                    this.debugLogout(`绘制成功 - ${name} [${index + 1}/${_series.length}] (${Date.now() - nextStart}ms)`)
+                                    this.emit('afterDraw', { index, config })
                                     next(++index)
-                                }).catch(err => {
+                                }).catch(error => {
                                     this.debugLogout('绘制失败')
-                                    reject(err) // 绘制失败抛错
+                                    this.emit('afterDraw', { index, config, error })
+                                    reject(error) // 绘制失败抛错
                                 })
                             } else {
-                                // console.warn(`[WxCanvas2d] Unknown type: '${options.type}'`)
-                                this.debugLogout(`未知类型 type: '${options.type && options.type.name}'`, 'error')
+                                // console.warn(`[WxCanvas2d] Unknown type: '${config.type}'`)
+                                this.debugLogout('未知类型', 'error')
                                 next(++index)
                             }
                         } else {
                             this.debugLogout(`绘制完成 (${Date.now() - this.startTime}ms)`)
                             resolve() // 所有图层绘制完毕
                         }
+
                         this.ctx.restore()
                     }
 
@@ -237,6 +254,25 @@ class WxCanvas2d {
 
     // 输出 debug 信息
     debugLogout () {}
+
+    // 事件监听
+    on (evt, cb) {
+        if (this.$events[evt]) {
+            this.$events[evt].push(cb)
+        } else {
+            this.$events[evt] = [cb]
+        }
+    }
+
+    // 触发监听事件回调
+    emit (evt, pars) {
+        if (Array.isArray(this.$events[evt])) {
+            this.$events[evt].forEach(n => n({
+                event: evt,
+                ...pars
+            }))
+        }
+    }
 }
 
 // 使用插件

@@ -1,3 +1,5 @@
+# Blur - 高斯模糊
+
 ## 效果图
 ![](../images/screenshot_1605710246577.png)
 
