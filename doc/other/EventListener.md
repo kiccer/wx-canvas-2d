@@ -37,7 +37,7 @@ import {
 
 const canvas = new WxCanvas2d()
 
-// 监听绘制前
+// 监听绘制后
 canvas.on('afterDraw', e => {
     console.log(e)
 })
