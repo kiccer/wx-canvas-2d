@@ -2,3 +2,4 @@
 **/miniprogram_npm/
 plugin/modules/
 **/*.min.js
+miniprogram_dist
