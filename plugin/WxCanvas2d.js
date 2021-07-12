@@ -25,6 +25,26 @@ class WxCanvas2d {
         }
     }
 
+    // 通过 wx.createSelectorQuery 获取 canvas 元素
+    queryCanvas () {
+        return new Promise((resolve, reject) => {
+            ;(this.component || wx)
+                .createSelectorQuery()
+                .select(this.query)
+                .fields({ node: true, size: true })
+                .exec(res => {
+                    // console.log(res)
+                    if (!res[0]) {
+                        this.debugLogout('找不到画布', 'error')
+                        reject(Error())
+                        return false
+                    }
+
+                    resolve(res)
+                })
+        })
+    }
+
     // 创建画布
     create (opts) {
         // console.log(opts)
@@ -42,35 +62,25 @@ class WxCanvas2d {
             this.component = options.component
             this.radius = options.radius
 
-            const query = this.component
-                ? this.component.createSelectorQuery()
-                : wx.createSelectorQuery()
+            this.queryCanvas().then(res => {
+                // console.log(res)
 
-            query.select(this.query)
-                .fields({ node: true, size: true })
-                .exec(res => {
-                    // console.log(res)
-                    if (!res[0]) {
-                        this.debugLogout('找不到画布', 'error')
-                        return false
-                    }
+                const canvas = res[0].node
+                const ctx = canvas.getContext('2d')
+                const dpr = SYS_INFO.pixelRatio
 
-                    const canvas = res[0].node
-                    const ctx = canvas.getContext('2d')
-                    const dpr = SYS_INFO.pixelRatio
+                this.canvas = canvas
+                this.canvasInfo = res
+                this.ctx = ctx
+                this.dpr = dpr
+                this.rootWidth = options.rootWidth
 
-                    this.canvas = canvas
-                    this.canvasInfo = res
-                    this.ctx = ctx
-                    this.dpr = dpr
-                    this.rootWidth = options.rootWidth
+                this.canvas.width = res[0].width * this.dpr
+                this.canvas.height = res[0].height * this.dpr
+                // this.ctx.scale(this.dpr, this.dpr)
 
-                    this.canvas.width = res[0].width * this.dpr
-                    this.canvas.height = res[0].height * this.dpr
-                    // this.ctx.scale(this.dpr, this.dpr)
-
-                    resolve()
-                })
+                resolve()
+            })
         })
     }
 
@@ -120,72 +130,65 @@ class WxCanvas2d {
             this.startTime = Date.now()
             const { series } = opts
 
-            const query = this.component
-                ? this.component.createSelectorQuery()
-                : wx.createSelectorQuery()
+            this.queryCanvas().then(res => {
+                // console.log(res)
 
-            query.select(this.query)
-                .fields({ node: true, size: true })
-                .exec(res => {
-                    // console.log(res)
-                    if (!res[0]) return false
+                // 重设画布大小
+                this.canvas.width = res[0].width * this.dpr
+                this.canvas.height = res[0].height * this.dpr
+                // this.ctx.scale(this.dpr, this.dpr)
 
-                    // 重设画布大小
-                    this.canvas.width = res[0].width * this.dpr
-                    this.canvas.height = res[0].height * this.dpr
-                    // this.ctx.scale(this.dpr, this.dpr)
+                this.clear() // 画之前先清空一次画布
 
-                    this.clear() // 画之前先清空一次画布
+                // 根据 zIndex 排序 (从小到大，先画小的，这样越大的显示在越上方)
+                const _series = series
+                    .map(n => ({ ...n, zIndex: n.zIndex || 0 }))
+                    .sort((n, m) => n.zIndex - m.zIndex)
 
-                    // 根据 zIndex 排序 (从小到大，先画小的，这样越大的显示在越上方)
-                    const _series = series
-                        .map(n => ({ ...n, zIndex: n.zIndex || 0 }))
-                        .sort((n, m) => n.zIndex - m.zIndex)
+                // 按顺序绘制图层方法
+                const next = (index = 0) => {
+                    const nextStart = Date.now()
+                    const config = _series[index]
 
-                    // 按顺序绘制图层方法
-                    const next = (index = 0) => {
-                        const nextStart = Date.now()
-                        const config = _series[index]
+                    this.ctx.save()
 
-                        this.ctx.save()
+                    if (index < _series.length) {
+                        const {
+                            type: {
+                                name,
+                                handler
+                            } = {}
+                        } = config
 
-                        if (index < _series.length) {
-                            const {
-                                type: {
-                                    name,
-                                    handler
-                                } = {}
-                            } = config
+                        if (name && typeof handler === 'function') {
+                            // 绘制前调用 beforeDraw 回调
+                            this.emit('beforeDraw', { index, config })
 
-                            if (name && typeof handler === 'function') {
-                                // 绘制前调用 beforeDraw 回调
-                                this.emit('beforeDraw', { index, config })
-
-                                handler.call(this, config).then(() => {
-                                    this.debugLogout(`绘制成功 - ${name} [${index + 1}/${_series.length}] (${Date.now() - nextStart}ms)`)
-                                    this.emit('afterDraw', { index, config })
-                                    next(++index)
-                                }).catch(error => {
-                                    this.debugLogout('绘制失败')
-                                    this.emit('afterDraw', { index, config, error })
-                                    reject(error) // 绘制失败抛错
-                                })
-                            } else {
-                                // console.warn(`[WxCanvas2d] Unknown type: '${config.type}'`)
-                                this.debugLogout('未知类型', 'error')
+                            handler.call(this, config).then(() => {
+                                this.debugLogout(`绘制成功 - ${name} [${index + 1}/${_series.length}] (${Date.now() - nextStart}ms)`)
+                                this.emit('afterDraw', { index, config })
                                 next(++index)
-                            }
+                            }).catch(error => {
+                                this.debugLogout('绘制失败')
+                                this.emit('afterDraw', { index, config, error })
+                                reject(error) // 绘制失败抛错
+                            })
                         } else {
-                            this.debugLogout(`绘制完成 (${Date.now() - this.startTime}ms)`)
-                            resolve() // 所有图层绘制完毕
+                            // console.warn(`[WxCanvas2d] Unknown type: '${config.type}'`)
+                            this.debugLogout('未知类型', 'error')
+                            next(++index)
                         }
-
-                        this.ctx.restore()
+                    } else {
+                        this.debugLogout(`绘制完成 (${Date.now() - this.startTime}ms)`)
+                        resolve() // 所有图层绘制完毕
                     }
 
-                    this.debugLogout('开始绘制')
-                    next() // 开始按顺序绘制图层
-                })
+                    this.ctx.restore()
+                }
+
+                this.debugLogout('开始绘制')
+                next() // 开始按顺序绘制图层
+            })
         })
     }
 
