@@ -34,7 +34,7 @@ canvas.draw({
 | 属性 | 描述 | 是否必填 | 类型 | 默认值|
 | --- | --- | --- | --- | --- |
 | type | series 系列类型标识 | 是 | String | - |
-| text | 文本内容 | 否 | String | '' |
+| text | 文本内容 | 否 | String \| Array | '' |
 | x | 绘制起始点的x轴坐标，左端为0 | 否 | Number | 0 |
 | y | 绘制起始点的y轴坐标，顶部为0 | 否 | Number | 0 |
 | color | 文本颜色 | 否 | String | '#000' |

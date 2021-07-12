@@ -17,7 +17,8 @@ module.exports = {
     themeConfig: {
         nav: [
             { text: 'GitHub', link: 'https://github.com/kiccer/wx-canvas-2d' },
-            { text: 'Issues', link: 'https://github.com/kiccer/wx-canvas-2d/issues' },
+            { text: '提问', link: 'https://github.com/kiccer/wx-canvas-2d/issues' },
+            { text: '讨论', link: 'https://github.com/kiccer/wx-canvas-2d/discussions' },
             { text: 'v1.x文档', link: 'https://www.kancloud.cn/kiccer/wx-canvas-2d/content' },
         ],
         sidebar: [
