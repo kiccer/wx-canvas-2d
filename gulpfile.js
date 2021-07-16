@@ -3,6 +3,7 @@ const del = require('delete')
 const gulp = require('gulp')
 const uglify = require('gulp-uglify')
 const babel = require('gulp-babel')
+// const concat = require('gulp-concat')
 // const logger = require('gulplog')
 
 // 打包后的目录
@@ -91,7 +92,15 @@ buildConfig.forEach(config => {
     }
 })
 
+// function test (cb) {
+//     return gulp.src('./plugin/series/Arc.js')
+//         .pipe(gulp.src('./plugin/index.js'))
+//         .pipe(concat('test.js'))
+//         .pipe(gulp.dest('./'))
+// }
+
 exports.default = gulp.series(
     clear(),
     build()
+    // test
 )
