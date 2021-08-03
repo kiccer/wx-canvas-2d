@@ -1,13 +1,13 @@
 <div align="center">
     <h1>wx-canvas-2d</h1>
     <p>微信小程序 canvas-2d 绘图工具🖌️🧑‍🎨</p>
-    <p>支持按需加载🍃，支持内容配置🧩，支持功能扩展🔥</p>
+    <p>支持按需引用🍃，支持内容配置🧩，支持功能扩展🔥</p>
     <p>适配各种机型📱，超轻量☁️，超易用⚪，无需学习📚️，直接上手🚀</p>
 </div>
 <br />
 <div align="center">
-    <img src="https://img.shields.io/badge/version-2.3.7-blue?style=flat-square&logo" />
-    <img src="https://img.shields.io/badge/total%20%20size-33.13%20%20KB-brightgreen?style=flat-square&logo" />
+    <img src="https://img.shields.io/badge/version-2.3.8-blue?style=flat-square&logo" />
+    <img src="https://img.shields.io/badge/total%20%20size-33.08%20%20KB-brightgreen?style=flat-square&logo" />
     <img src="https://img.shields.io/badge/main%20%20size-6.70%20%20KB-brightgreen?style=flat-square&logo" />
     <img src="https://img.shields.io/npm/dt/wx-canvas-2d.svg?style=flat-square&logo=appveyor&logo" />
     <br />
