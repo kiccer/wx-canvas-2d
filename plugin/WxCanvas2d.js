@@ -267,6 +267,24 @@ class WxCanvas2d {
         }
     }
 
+    // 取消监听
+    off (evt, cb) {
+        // TODO 盲写的，还没测试过
+        const events = this.$events[evt]
+
+        if (events) {
+            if (cb) {
+                events.some(fns => {
+                    const index = fns.findIndex(fn => fn === evt)
+                    delete this.$events[evt][index]
+                    return index !== -1
+                })
+            } else {
+                delete this.$events[evt]
+            }
+        }
+    }
+
     // 触发监听事件回调
     emit (evt, pars) {
         if (Array.isArray(this.$events[evt])) {

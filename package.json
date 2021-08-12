@@ -1,6 +1,6 @@
 {
     "name": "wx-canvas-2d",
-    "version": "2.3.8",
+    "version": "2.3.9",
     "description": "微信小程序 canvas-2d 绘图工具，支持按需引用，支持内容配置，支持功能扩展，适配各种机型，超轻量，超易用，无需学习，直接上手。",
     "main": "miniprogram_dist",
     "miniprogram": "miniprogram_dist",
