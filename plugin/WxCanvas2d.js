@@ -14,7 +14,7 @@ class WxCanvas2d {
         this.rootWidth = null // UI设计稿宽度
         this.fontFamily = 'sans-serif' // 默认字体，目前好像只有这个是可用的
         this.startTime = null // 绘图开始时间戳
-        this.$events = {} // 监听回调
+        this.$listener = {} // 监听回调
     }
 
     // canvas 画布大小 (单位: rpx)
@@ -260,35 +260,30 @@ class WxCanvas2d {
 
     // 事件监听
     on (evt, cb) {
-        if (this.$events[evt]) {
-            this.$events[evt].push(cb)
+        if (this.$listener[evt]) {
+            if (!this.$listener[evt].includes(cb)) this.$listener[evt].push(cb)
         } else {
-            this.$events[evt] = [cb]
+            this.$listener[evt] = [cb]
         }
     }
 
     // 取消监听
     off (evt, cb) {
-        // TODO 盲写的，还没测试过
-        const events = this.$events[evt]
+        const fns = this.$listener[evt]
 
-        if (events) {
+        if (fns) {
             if (cb) {
-                events.some(fns => {
-                    const index = fns.findIndex(fn => fn === evt)
-                    delete this.$events[evt][index]
-                    return index !== -1
-                })
+                fns.some((fn, idx) => fn === cb && delete this.$listener[evt][idx])
             } else {
-                delete this.$events[evt]
+                delete this.$listener[evt]
             }
         }
     }
 
     // 触发监听事件回调
     emit (evt, pars) {
-        if (Array.isArray(this.$events[evt])) {
-            this.$events[evt].forEach(n => n({
+        if (Array.isArray(this.$listener[evt])) {
+            this.$listener[evt].forEach(n => n({
                 event: evt,
                 ...pars
             }))
