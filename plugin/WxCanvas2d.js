@@ -80,6 +80,8 @@ class WxCanvas2d {
                 // this.ctx.scale(this.dpr, this.dpr)
 
                 resolve()
+            }).catch(err => {
+                reject(err)
             })
         })
     }
@@ -188,6 +190,8 @@ class WxCanvas2d {
 
                 this.debugLogout('开始绘制')
                 next() // 开始按顺序绘制图层
+            }).catch(err => {
+                reject(err)
             })
         })
     }

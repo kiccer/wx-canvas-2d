@@ -1,6 +1,6 @@
 {
     "name": "wx-canvas-2d",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "description": "微信小程序 canvas-2d 绘图工具，支持按需引用，支持内容配置，支持功能扩展，适配各种机型，超轻量，超易用，无需学习，直接上手。",
     "main": "miniprogram_dist",
     "miniprogram": "miniprogram_dist",
@@ -29,7 +29,8 @@
         "webpack-cli": "^4.1.0"
     },
     "scripts": {
-        "gulp-dev": "gulp",
+        "gulp-dev": "gulp --watch",
+        "gulp-build": "gulp",
         "dev": "exit && webpack --config webpack.config.js",
         "lint-fix": "eslint --fix --ext .js pages components res app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -37,7 +38,7 @@
         "docs:build": "vuepress build doc",
         "postinstall": "node ./postinstall.js",
         "build:postinstall": "node ./scripts/postinstall-build.js",
-        "prepublish": "npm run build:md & npm run build:postinstall",
+        "prepublish": "npm run gulp-build && (npm run build:md & npm run build:postinstall)",
         "build:md": "node ./scripts/md.js"
     },
     "repository": {
