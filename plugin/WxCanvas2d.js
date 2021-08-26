@@ -34,13 +34,12 @@ class WxCanvas2d {
                 .fields({ node: true, size: true })
                 .exec(res => {
                     // console.log(res)
-                    if (!res[0]) {
+                    if (res[0]) {
+                        resolve(res)
+                    } else {
                         this.debugLogout('找不到画布', 'error')
-                        reject(Error())
-                        return false
+                        reject(res)
                     }
-
-                    resolve(res)
                 })
         })
     }
