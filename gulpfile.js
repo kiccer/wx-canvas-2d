@@ -6,6 +6,11 @@ const babel = require('gulp-babel')
 // const concat = require('gulp-concat')
 // const logger = require('gulplog')
 
+// 命令行传参
+const cmdParams = {
+    watch: process.argv.includes('--watch')
+}
+
 // 打包后的目录
 const buildFrom = './plugin/'
 // const buildTo = './plugin/build/'
@@ -77,30 +82,24 @@ function build (cb) {
 }
 
 // 监听
-buildConfig.forEach(config => {
-    if (config.watch) {
-        const paths = config.from.split('/')
-        const last = paths[paths.length - 1]
-        const fileScope = '/' + (paths[paths.length - 2] === '**' ? '**/' + last : last)
+if (cmdParams.watch) {
+    buildConfig.forEach(config => {
+        if (config.watch) {
+            const paths = config.from.split('/')
+            const last = paths[paths.length - 1]
+            const fileScope = '/' + (paths[paths.length - 2] === '**' ? '**/' + last : last)
 
-        gulp.watch([
-            config.from
-        ], gulp.series(
-            clear([buildTo + fileScope]),
-            buildItem(config)
-        ))
-    }
-})
-
-// function test (cb) {
-//     return gulp.src('./plugin/series/Arc.js')
-//         .pipe(gulp.src('./plugin/index.js'))
-//         .pipe(concat('test.js'))
-//         .pipe(gulp.dest('./'))
-// }
+            gulp.watch([
+                config.from
+            ], gulp.series(
+                clear([buildTo + fileScope]),
+                buildItem(config)
+            ))
+        }
+    })
+}
 
 exports.default = gulp.series(
     clear(),
     build()
-    // test
 )
