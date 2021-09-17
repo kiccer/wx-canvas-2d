@@ -6,8 +6,8 @@
 </div>
 <br />
 <div align="center">
-    <img src="https://img.shields.io/badge/version-2.4.2-blue?style=flat-square&logo" />
-    <img src="https://img.shields.io/badge/total%20%20size-33.31%20%20KB-brightgreen?style=flat-square&logo" />
+    <img src="https://img.shields.io/badge/version-2.4.3-blue?style=flat-square&logo" />
+    <img src="https://img.shields.io/badge/total%20%20size-33.32%20%20KB-brightgreen?style=flat-square&logo" />
     <img src="https://img.shields.io/badge/main%20%20size-6.93%20%20KB-brightgreen?style=flat-square&logo" />
     <img src="https://img.shields.io/npm/dt/wx-canvas-2d.svg?style=flat-square&logo=appveyor&logo" />
     <br />

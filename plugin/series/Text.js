@@ -35,6 +35,7 @@ module.exports = {
                     if (this.ctx.measureText(str).width < this.xDpr(width)) {
                         splitStr[index] = str
                     } else {
+                        splitStr[index + 1] = m // 显示不下多出来的那个字存到下一行
                         start = j
                         index++
                     }
