@@ -201,10 +201,13 @@ class WxCanvas2d {
             x = 0,
             y = 0,
             width = 0,
-            height = 0,
-            radius = 0
+            height = 0
+            // radius = 0
         } = opts
         // console.log(_opts)
+
+        const maxRadius = Math.min(width, height) / 2
+        const radius = Math.max(0, Math.min(opts.radius || 0, maxRadius))
 
         // 圆角起始/结束方向
         const angle = {
