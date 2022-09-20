@@ -74,8 +74,6 @@ canvas.on('afterDraw', onAfterDraw)
 canvas.off('afterDraw', onAfterDraw)
 ```
 
-回调函数接收参数 `e` 的属性信息
-
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | eventType | String | 需要清除的事件类型,如 `"beforeDraw"` 、 `"afterDraw"` |
