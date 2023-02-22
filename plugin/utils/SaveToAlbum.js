@@ -84,7 +84,7 @@ module.exports = {
                         } else if ([2, 3].includes(res.code)) {
                             saveImageToPhotosAlbum(tempFilePath).then(res => {
                                 this.debugLogout('保存图片到相册成功')
-                                resolve()
+                                resolve({ tempFilePath })
                             }).catch(() => {
                                 this.debugLogout('保存图片到相册失败', 'error')
                                 reject(Error('保存图片到相册失败'))
