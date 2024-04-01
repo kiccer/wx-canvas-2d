@@ -243,7 +243,7 @@ class WxCanvas2d {
     }
 
     // 设置线的样式
-    setLineStyle (lineStyle = {}) {
+    setLineStyle (lineStyle) {
         const {
             cap = 'butt', // butt | round | square
             join = 'bevel', // bevel | round | miter
@@ -251,7 +251,7 @@ class WxCanvas2d {
             dash = [1, 0],
             color = '#000',
             width = 2
-        } = lineStyle
+        } = lineStyle ?? {}
 
         this.ctx.lineCap = cap
         this.ctx.setLineDash(dash.map(n => this.xDpr(n)))
