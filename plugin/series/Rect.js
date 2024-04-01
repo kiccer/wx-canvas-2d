@@ -11,7 +11,7 @@ module.exports = {
                 // color = '',
                 bgColor = '',
                 radius = 0,
-                lineStyle
+                lineStyle = {}
                 // blur = 0
             } = config
 
