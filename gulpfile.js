@@ -51,6 +51,14 @@ const buildConfig = [
         babel: true,
         uglify: true,
         watch: true
+    },
+    {
+        name: 'types',
+        from: buildFrom + 'index.d.ts',
+        to: buildTo,
+        babel: false,
+        uglify: false,
+        watch: true
     }
 ]
 
