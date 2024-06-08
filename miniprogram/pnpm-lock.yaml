@@ -12,8 +12,8 @@ dependencies:
     specifier: ^2.0.6
     version: 2.0.6
   wx-canvas-2d:
-    specifier: ^2.4.0
-    version: 2.5.0
+    specifier: 2.5.2-beta.0
+    version: 2.5.2-beta.0
 
 packages:
 
@@ -25,7 +25,8 @@ packages:
     resolution: {integrity: sha512-qaKRmtYPZ5qdw4jWJD6bxEf1FJEqllJrwxCLIm0sQU/A7v2/czigzOb+C2uSiFsa9lBUzeH7M1oK+Q+OLxL3kA==}
     dev: false
 
-  /wx-canvas-2d@2.5.0:
-    resolution: {integrity: sha512-P52ummKpu/q77C9eLE7ESvBJLqkjTGBX7+0Ny79PLN0Npsqb2tikIv1dzZS4V9VYvrI8mvdJhKtezwtxFP/nbQ==}
+  /wx-canvas-2d@2.5.2-beta.0:
+    resolution: {integrity: sha512-KH3e+8xeg7hrN7IgwnqtxtAjQgP0kDif4vnoM+ZmZP2v8udJuaUNBqO3XAUHPG1p5WNZU+xkj4vIMiMdfuXX6A==}
+    engines: {node: '>=16.0.0'}
     requiresBuild: true
     dev: false
