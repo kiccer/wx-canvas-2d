@@ -1,6 +1,6 @@
 {
     "name": "wx-canvas-2d",
-    "version": "2.5.1",
+    "version": "2.5.2-beta.0",
     "description": "微信小程序 canvas-2d 绘图工具，支持按需引用，支持内容配置，支持功能扩展，适配各种机型，超轻量，超易用，无需学习，直接上手。",
     "main": "miniprogram_dist",
     "miniprogram": "miniprogram_dist",
@@ -62,5 +62,12 @@
     "bugs": {
         "url": "https://github.com/kiccer/wx-canvas-2d/issues"
     },
-    "homepage": "https://github.com/kiccer/wx-canvas-2d#readme"
+    "homepage": "https://github.com/kiccer/wx-canvas-2d#readme",
+    "volta": {
+        "node": "16.20.2",
+        "npm": "8.19.4"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
 }
